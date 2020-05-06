@@ -2,9 +2,9 @@ import log from "loglevel";
 import { app, BrowserWindow, protocol } from "electron";
 import * as path from "path";
 import * as url from "url";
-import ProcessManager from "./src/services/processmanager";
+import DefiProcessManager from "./src/services/defiprocessmanager";
 import "./src/index";
-log.setDefaultLevel(5);
+import { parseOptions, Options } from "./src/clioptions";
 
 declare var process: {
   argv: any;
@@ -16,6 +16,33 @@ declare var process: {
   platform: string;
   mas: boolean;
 };
+
+
+class App {
+  options: Options
+  app: Electron.App
+
+  constructor() {
+    let opts = this.options = parseOptions();
+    log.setDefaultLevel(opts.logLevel as any);
+  }
+
+  run() {
+
+  }
+
+  createWindow() {
+
+  }
+
+  setupEvents() {
+    this.app.on("ready", this.handleReady.bind(this));
+  }
+
+  handleReady() {
+
+  }
+}
 
 let mainWindow: any;
 let allowQuit = false;
@@ -64,7 +91,7 @@ function createWindow() {
     // Stop all process before quit
     mainWindow.hide();
     event.preventDefault();
-    const processManager = new ProcessManager();
+    const processManager = new DefiProcessManager();
     await processManager.stop();
     allowQuit = true;
     return app.quit();

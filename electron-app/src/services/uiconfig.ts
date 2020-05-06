@@ -12,6 +12,7 @@ import {
 } from "../constant";
 
 export default class UiConfig {
+  // TODO (harsh): use func pattern -  get() { }
   get = async () => {
     try {
       // check for UI config file

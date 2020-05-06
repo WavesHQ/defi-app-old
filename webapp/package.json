@@ -12,9 +12,9 @@
   "scripts": {
     "test": "jest",
     "start": "webpack-dev-server --mode development --open",
-    "build-react": "webpack --mode production",
-    "storybook": "start-storybook -p 9009",
-    "build-storybook": "build-storybook"
+    "start:storybook": "start-storybook -p 9009",
+    "build": "webpack --mode production",
+    "build:storybook": "build-storybook"
   },
   "keywords": [],
   "license": "ISC",

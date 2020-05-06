@@ -21,7 +21,8 @@ import {
 
 const execPath = path.resolve(path.join(BINARY_FILE_PATH, BINARY_FILE_NAME));
 
-export default class ProcessManager {
+export default class DefiProcessManager {
+  // TODO (Sumit): abstract event into interface. 
   async start(
     params: any,
     event: {
@@ -40,6 +41,7 @@ export default class ProcessManager {
         const pid = getFileData(PID_FILE_NAME);
         const processLists: any = await getProcesses({ pid });
         if (processLists.length) {
+          // NOTE: 
           event.sender.send(
             START_DEFI_CHAIN_REPLY,
             responseMessage(true, { message: "Node already running" })
@@ -101,6 +103,7 @@ export default class ProcessManager {
       return responseMessage(false, err);
     }
   }
+
   async stop() {
     try {
       const pid = getFileData(PID_FILE_NAME);

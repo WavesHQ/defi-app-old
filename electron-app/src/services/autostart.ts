@@ -2,7 +2,8 @@ import log from "loglevel";
 import AutoLaunch from "auto-launch";
 import { APP_NAME } from "../constant";
 
-export default class PreferenceStatus {
+// TODO (Harsh): Look into naming.
+export default class Preferences {
   async get() {
     try {
       const autoLauncher = new AutoLaunch({ name: APP_NAME });
@@ -13,6 +14,7 @@ export default class PreferenceStatus {
       throw err;
     }
   }
+
   async set(enabled: boolean, isHidden?: boolean) {
     try {
       const autoLauncher = new AutoLaunch({ name: APP_NAME, isHidden });
