@@ -8,6 +8,7 @@ export const RETRY_ATTEMPT = 50;
 export const DATE_FORMAT = 'MMM D, hh:mm a';
 export const PAYMENT_REQUEST_DETAIL_DATE_FORMAT = 'MMM D YYYY, hh:mm a';
 export const UNPARSED_ADDRESS = 'Unparsed Address';
+export const BLOCKCHAIN_START_ERROR = 'Unable to start blockchain';
 export const BLOCK_PAGE_SIZE = 10;
 export const BLOCK_TXN_PAGE_SIZE = 10;
 export const WALLET_TXN_PAGE_SIZE = 5;

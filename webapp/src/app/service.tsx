@@ -29,16 +29,21 @@ export const startBinary = (config: any) => {
         'start-defi-chain-reply',
         async (_e: any, res: any) => {
           if (res.success) {
-            const blockchainStatus = await isBlockchainStarted();
-            if (blockchainStatus) {
+            const blockchainResponse = await isBlockchainStarted();
+            if (blockchainResponse.status) {
               store.dispatch({
                 type: startNodeSuccess.type,
                 payload: res.data,
               });
               return resolve(res);
             }
+            store.dispatch({
+              type: startNodeFailure.type,
+              payload: blockchainResponse.message,
+            });
+            return reject(blockchainResponse);
           }
-          store.dispatch({ type: startNodeFailure.type, payload: res.data });
+          store.dispatch({ type: startNodeFailure.type, payload: res.message });
           return reject(res);
         }
       );

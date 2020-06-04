@@ -10,12 +10,10 @@ import { getRpcConfigsRequest } from '../containers/RpcConfiguration/reducer';
 import routes from '../routes';
 import LaunchScreen from '../components/LaunchScreen';
 
-interface AppState {
-  prevDepth: number;
-}
 
 interface AppProps extends RouteComponentProps {
   isRunning: boolean;
+  nodeError: string;
   getRpcConfigsRequest: () => void;
 }
 
@@ -36,7 +34,6 @@ const determineTransition = (location, prevDepth) => {
 };
 
 const App: React.FunctionComponent<AppProps> = (props: AppProps) => {
-
   const prevDepth = useRef(getPathDepth(props.location));
 
   useEffect(() => {
@@ -45,41 +42,40 @@ const App: React.FunctionComponent<AppProps> = (props: AppProps) => {
 
   useEffect(() => {
     prevDepth.current = getPathDepth(props.location);
-  })
+  });
 
-  const transition = determineTransition(props.location, prevDepth.current)
+  const transition = determineTransition(props.location, prevDepth.current);
 
-  return props.isRunning ?
-    (
-      <div id='app'>
-        <Helmet>
-          <title>DeFi Blockchain Client</title>
-        </Helmet>
-        <Sidebar />
-        <main>
-          <TransitionGroup
-            className='transition-group'
-            childFactory={child =>
-              React.cloneElement(child, {
-                classNames: transition[0],
-                timeout: transition[1],
-              })
-            }
-          >
+  return props.isRunning ? (
+    <div id='app'>
+      <Helmet>
+        <title>DeFi Blockchain Client</title>
+      </Helmet>
+      <Sidebar />
+      <main>
+        <TransitionGroup
+          className='transition-group'
+          childFactory={child =>
+            React.cloneElement(child, {
+              classNames: transition[0],
+              timeout: transition[1],
+            })
+          }
+        >
           <CSSTransition timeout={300} key={props.location.key}>
-              {routes(props.location)}
-            </CSSTransition>
-          </TransitionGroup>
-        </main>
-      </div>
-    ) :
-    (
-      <LaunchScreen />
-    )
-}
+            {routes(props.location)}
+          </CSSTransition>
+        </TransitionGroup>
+      </main>
+    </div>
+  ) : (
+    <LaunchScreen message={props.nodeError} />
+  );
+};
 
 const mapStateToProps = ({ app }) => ({
   isRunning: app.isRunning,
+  nodeError: app.nodeError,
 });
 
 const mapDispatchToProps = { getRpcConfigsRequest };
