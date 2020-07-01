@@ -27,7 +27,7 @@
     "lint": "tslint --project tsconfig.json --config tslint.json",
     "lint:webapp": "tslint -p webapp/tsconfig.json -c tslint.json",
     "postinstall": "electron-builder install-app-deps",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "cd webapp && npm run test"
   },
   "keywords": [],
   "license": "ISC",

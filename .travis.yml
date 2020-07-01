@@ -1,0 +1,28 @@
+language: node_js
+
+node_js:
+  - 8.9.4
+
+cache:
+  npm: false
+
+# safelist
+branches:
+  only:
+    - master
+    - develop
+
+jobs:
+  include:
+    - stage: install dependencies
+      script: npm init
+    - stage: run unit tests
+      # change script value to `npm test` to run all tests
+      script: echo "npm test temporarily disabled"
+
+notifications:
+  email:
+    recipients:
+      - sumit@cakedefi.com
+    on_success: always
+    on_failure: always
