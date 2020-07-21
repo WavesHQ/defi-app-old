@@ -233,24 +233,9 @@ export default class RpcClient {
 
   // include addresses that haven't received any payments.
   getReceivingAddressAndAmountList = async (): Promise<IAddressAndAmount[]> => {
-    const { data } = await this.call(
-      '/',
-      methodNames.LIST_RECEIVED_BY_ADDRESS,
-      [1, true]
-    );
-    const isValid = validateSchema(
-      rpcResponseSchemaMap.get(methodNames.LIST_RECEIVED_BY_ADDRESS),
-      data
-    );
-    if (!isValid) {
-      throw new Error(
-        `Invalid response from node, ${
-          methodNames.LIST_RECEIVED_BY_ADDRESS
-        }: ${JSON.stringify(data.result)}`
-      );
-    }
+    const result = await this.getListreceivedAddress(1);
     const addressAndAmountList: IAddressAndAmount[] = getAddressAndAmount(
-      data.result
+      result
     );
     return addressAndAmountList;
   };
@@ -536,5 +521,29 @@ export default class RpcClient {
       );
     }
     return data.result;
+  };
+
+  getListreceivedAddress = async (minConf: number = 0) => {
+    const { data } = await this.call(
+      '/',
+      methodNames.LIST_RECEIVED_BY_ADDRESS,
+      [minConf, true]
+    );
+    const isValid = validateSchema(
+      rpcResponseSchemaMap.get(methodNames.LIST_RECEIVED_BY_ADDRESS),
+      data
+    );
+    if (!isValid) {
+      throw new Error(
+        `Invalid response from node, ${
+          methodNames.LIST_RECEIVED_BY_ADDRESS
+        }: ${JSON.stringify(data.result)}`
+      );
+    }
+    return data.result;
+  };
+
+  getPrivateKey = async (address: string) => {
+    const { data } = await this.call('/', methodNames.DUMP_PRIV_KEY, [address]);
   };
 }

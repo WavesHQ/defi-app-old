@@ -31,7 +31,10 @@ export default class DefiProcessManager {
           if (event)
             event.sender.send(
               START_DEFI_CHAIN_REPLY,
-              responseMessage(true, { message: 'Node already running' })
+              responseMessage(true, {
+                message: 'Node already running',
+                conf: this.getConfiguration(),
+              })
             );
           return responseMessage(true, { message: 'Node already running' });
         }
@@ -62,13 +65,16 @@ export default class DefiProcessManager {
           if (event)
             return event.sender.send(
               START_DEFI_CHAIN_REPLY,
-              responseMessage(true, { message: 'Node started' })
+              responseMessage(true, {
+                message: 'Node started',
+                conf: this.getConfiguration(),
+              })
             );
         }
       });
 
       // on STDERR
-      child.stderr.on('data', err => {
+      child.stderr.on('data', (err) => {
         log.error(err.toString('utf8').trim());
         if (event)
           return event.sender.send(
@@ -78,7 +84,7 @@ export default class DefiProcessManager {
       });
 
       // on close
-      child.on('close', code => {
+      child.on('close', (code) => {
         log.info(`child process exited with code ${code}`);
         if (event)
           return event.sender.send(
@@ -95,6 +101,13 @@ export default class DefiProcessManager {
         event.sender.send(START_DEFI_CHAIN_REPLY, responseMessage(false, err));
       return responseMessage(false, err);
     }
+  }
+
+  getConfiguration() {
+    if (checkPathExists(CONFIG_FILE_NAME)) {
+      return getFileData(CONFIG_FILE_NAME);
+    }
+    return '';
   }
 
   async stop() {

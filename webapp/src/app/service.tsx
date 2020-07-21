@@ -5,7 +5,7 @@ import showNotification from '../utils/notifications';
 import * as log from '../utils/electronLogger';
 import { I18n } from 'react-redux-i18n';
 import { isBlockchainStarted } from '../containers/RpcConfiguration/service';
-import { eventChannel, END } from 'redux-saga';
+import { eventChannel } from 'redux-saga';
 
 export const getRpcConfig = () => {
   if (isElectron()) {
@@ -17,12 +17,12 @@ export const getRpcConfig = () => {
 };
 
 export function startBinary(config: any) {
-  return eventChannel(emit => {
+  return eventChannel((emit) => {
     const ipcRenderer = ipcRendererFunc();
     ipcRenderer.send('start-defi-chain', config);
     ipcRenderer.on('start-defi-chain-reply', async (_e: any, res: any) => {
       if (res.success) {
-        isBlockchainStarted(emit);
+        isBlockchainStarted(emit, res);
       } else {
         emit(res);
       }

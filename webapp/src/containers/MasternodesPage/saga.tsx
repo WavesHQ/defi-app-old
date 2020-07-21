@@ -1,5 +1,6 @@
-import { call, put, takeLatest } from 'redux-saga/effects';
+import { call, put, takeLatest, select } from 'redux-saga/effects';
 import * as log from '../../utils/electronLogger';
+import { I18n } from 'react-redux-i18n';
 import {
   fetchMasternodesRequest,
   fetchMasternodesSuccess,
@@ -10,14 +11,17 @@ import {
   resignMasterNode,
   resignMasterNodeFailure,
   resignMasterNodeSuccess,
+  setMasternodeOperator,
 } from './reducer';
 import {
   handelFetchMasterNodes,
   handelCreateMasterNodes,
   handleResignMasterNode,
+  handleGetPrivateKey,
 } from './service';
 
 function* fetchMasterNodes() {
+  yield call(masterNodeOperator);
   try {
     const data = yield call(handelFetchMasterNodes);
     if (data && Array.isArray(data)) {
@@ -59,6 +63,25 @@ function* masterNodeResign(action) {
     yield put({ type: resignMasterNodeSuccess.type, payload: data });
   } catch (e) {
     yield put({ type: resignMasterNodeFailure.type, payload: e.message });
+    log.error(e);
+  }
+}
+
+function* masterNodeOperator() {
+  const { configurationData } = yield select((state) => state.app);
+  const isMasterNode = String(configurationData)
+    .split(' ')
+    .find((item) => item.includes('masternode_operator='));
+  const address = isMasterNode?.substring('masternode_operator='.length);
+  try {
+    if (address) {
+      yield call(handleGetPrivateKey, address);
+      yield put(setMasternodeOperator(address));
+    } else {
+      throw new Error(I18n.t('alerts.masterNodeOperatorAddressFailure'));
+    }
+  } catch (e) {
+    yield put(setMasternodeOperator(''));
     log.error(e);
   }
 }
