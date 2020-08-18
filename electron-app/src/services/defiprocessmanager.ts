@@ -137,6 +137,7 @@ export default class DefiProcessManager {
   }
 
   async restart(args: any, event: Electron.IpcMainEvent) {
+    // console.log(args);
     if (args.updatedConf && Object.keys(args.updatedConf).length) {
       const updatedConfigData = ini.encode(args.updatedConf);
 
