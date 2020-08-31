@@ -29,17 +29,39 @@ import {
 } from '../../constants';
 import styles from './Sidebar.module.scss';
 import OpenNewTab from '../../utils/openNewTab';
+import usePrevious from '../../components/UsePrevious';
 
 export interface SidebarProps extends RouteComponentProps {
   fetchWalletBalanceRequest: () => void;
   walletBalance: string;
   unit: string;
+  isErrorModalRestart: boolean;
+  isErrorModalOpen: boolean;
 }
 
 const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
+  const prevIsErrorModalRestart = usePrevious(props.isErrorModalRestart);
+  const prevIsErrorModalOpen = usePrevious(props.isErrorModalOpen);
+
   useEffect(() => {
     props.fetchWalletBalanceRequest();
   }, []);
+
+  useEffect(() => {
+    if (
+      !props.isErrorModalRestart &&
+      !props.isErrorModalOpen &&
+      prevIsErrorModalRestart !== props.isErrorModalRestart &&
+      prevIsErrorModalOpen !== props.isErrorModalOpen
+    ) {
+      props.fetchWalletBalanceRequest();
+    }
+  }, [
+    prevIsErrorModalRestart,
+    prevIsErrorModalOpen,
+    props.isErrorModalRestart,
+    props.isErrorModalOpen,
+  ]);
 
   return (
     <div className={styles.sidebar}>
@@ -147,11 +169,13 @@ const Sidebar: React.FunctionComponent<SidebarProps> = (props) => {
 };
 
 const mapStateToProps = (state) => {
-  const { i18n, wallet, settings } = state;
+  const { i18n, wallet, settings, errorModal } = state;
   return {
     locale: i18n.locale,
     unit: settings.appConfig.unit,
     walletBalance: wallet.walletBalance,
+    isErrorModalOpen: errorModal.isOpen,
+    isErrorModalRestart: errorModal.isRestart,
   };
 };
 
