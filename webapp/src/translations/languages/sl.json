@@ -1,0 +1,328 @@
+{
+  "components": {
+    "keyValueLi": {
+      "copied": "Kopirano!"
+    },
+    "searchBar": {},
+    "spinner": {},
+    "statCard": {},
+    "syncStatus": {
+      "synchronized": "Sinhronizirano",
+      "syncing": "Sinhronizacija",
+      "synced": "Sinhr.",
+      "justNow": "Pravkar sinhronizirano",
+      "aMinuteAgo": "Sinhronizirano pred eno minuto",
+      "blockInfo": "Blok %{latestSyncedBlock} od %{latestBlock}",
+      "network": "Omrežje"
+    }
+  },
+  "containers": {
+    "sideBar": {
+      "balance": "Stanje",
+      "dfi": "DFI",
+      "wallet": "Denarnica",
+      "masterNodes": "Glavna vozlišča",
+      "blockchain": "Veriga blokov",
+      "exchange": "Borza",
+      "help": "Pomoč",
+      "settings": "Nastavitve",
+      "console": "Konzola"
+    },
+    "blockChainPage": {
+      "blockChainPage": {
+        "title": "Veriga blokov – odjemalnik za verigo bloko DeFi",
+        "blockchain": "Veriga blokov"
+      },
+      "blockChainTable": {
+        "height": "Višina",
+        "age": "Starost",
+        "transactions": "Transakcije",
+        "minedBy": "Narudarila oseba",
+        "size": "Velikost",
+        "paginationRange": "%{from} – %{to} od %{total} blokov",
+        "noBlocks": "Ni razpoložljivih blokov",
+        "loading": "Nalaganje ..."
+      },
+      "blockPage": {
+        "block": "Blok",
+        "title": "– odjemalnik za verigo bloko DeFi",
+        "blockchain": "Veriga blokov",
+        "transactions": "Transakcije",
+        "noOfTransactions": "Število transakcij",
+        "difficulty": "Težavnost",
+        "height": "Bišina",
+        "bits": "Bitov",
+        "blockReward": "Nagrada za blok",
+        "version": "Različica",
+        "minedBy": "Narudarila oseba",
+        "nonce": "Nonce",
+        "blockHash": "Ključbloka",
+        "merkleRoot": "Koren merkle"
+      },
+      "blockTxn": {
+        "noInputs": "Brez vnosov (novoustvarjeni kovanci)",
+        "copied": "Kopirano!",
+        "dFI": "DFI",
+        "unparsedAddress": "Nerazčlenjeni naslov",
+        "paginationRange": "%{from} – %{to} od %{total} transakcij",
+        "noTransactions": "Ni razpoložljivih transakcij",
+        "loading": "Nalaganje ..."
+      },
+      "minerPage": {
+        "miner": "Rudar",
+        "defiBlockChainClient": "Odjemalnik za verigo bloko DeFi",
+        "blockchain": "Veriga blokov"
+      }
+    },
+    "errors": {
+      "title": "Center za obdelovanje blokov DFI – odjemalnik za verigo bloko DeFi",
+      "header": "Center za obdelovanje blokov DFI",
+      "detail": "Videti je, da ste sem zašli pomotoma. Tu naši delavci zagotavljajo, da je vsak blok DFI pravilno vezan na verigo. Ker gre za omejeno območje, vas prosimo, da se vrnete nazaj.",
+      "goBack": "Nazaj"
+    },
+    "exchangePage": {
+      "title": "Borza – odjemalnik za verigo bloko DeFi",
+      "exchange": "Borza",
+      "section": "Razdelek",
+      "footerBar": "Vrstica z nogo"
+    },
+    "helpPage": {
+      "title": "Pomoč – odjemalnik za verigo bloko DeFi",
+      "help": "Pomoč",
+      "section": "Razdelek"
+    },
+    "masterNodes": {
+      "masterNodesPage": {
+        "title": "Glavna vozlišča – odjemalnik za verigo bloko DeFi",
+        "createMasterNode": "Ustvari",
+        "masterNodes": "Glavna vozlišča",
+        "statistics": "Statistika",
+        "list": "Seznam",
+        "weeklyIncome": "Tedenski prihodek",
+        "volume": "Količina",
+        "marketCap": "Tržna kapitalizacija",
+        "returnPerAnnum": "Letno vračilo",
+        "paidRewards": "Izplačane nagrade",
+        "rewardFrequency": "Pogostost nagrad",
+        "activeMasterNodes": "Aktivna glavna vozlišča",
+        "supply": "Zaloga",
+        "lockedInCollateral": "Zaklenjeno kot jamstvo",
+        "costPerMasterNode": "Cena na glavno vozlišče",
+        "masternodeWorth": "Vrednost glavnega vozlišča"
+      },
+      "masterNodesList": {
+        "ownerAddress": "Naslov lastnika",
+        "operatorAddress": "Naslov upravljavca",
+        "registered": "Registrirano",
+        "mintedBlocks": "Skovani bloki",
+        "noMasterNodes": "Ni razpoložljivih glavnih vozlišč"
+      },
+      "createMasterNode": {
+        "title": "Ustvari glavno vozlišče",
+        "masterNodeName": "Ime glavnega vozlišča",
+        "lackOfBalanceMsg": "Glavnega vozlišča ni mogoče ustvariti zaradi pomanjkanja sredstev. Če želite ustvariti glavno vozlišče, potrebujete najmanj 1 milijon DFI",
+        "confirmationText": "Ali ste prepričani, da želite ustvariti glavno vozlišče?",
+        "restartNodeConfirmationText": "Ali ste prepričani, da želite znova zagnati vozlišče?",
+        "createNodeButton": "Ustvari glavno vozlišče",
+        "noButtonText": "Prekliči",
+        "yesButtonText": "Nadaljuj",
+        "masternodeOperator": "Upravljavec glavnega vozlišča",
+        "masternodeOwner": "Lastnik glavnega vozlišča",
+        "backToMasternodePage": "Nazaj na stran glavnega vozlišča",
+        "restartNodeButton": "Znova zaženi glavno vozlišče",
+        "masterNodeSuccess": "Konfiguracijo glavnega vozlišča lahko ročno nastavite v datoteki defi.conf ali samodejno nastavite konfiguracijo tega glavnega vozlišča tako, da znova zaženete glavno vozlišče."
+      },
+      "masternodeDetailPage": {
+        "masternodeDetailTitle": "Stran s podrobnostmi glavnega vozlišča %{hash}",
+        "masternode": "Glavno vozlišče",
+        "masternodeDetail": "Podrobnosti glavnega vozlišča",
+        "ownerAddress": "Naslov lastnika",
+        "operatorAddress": "Naslov upravljavca",
+        "state": "Stanje",
+        "hash": "Ključ",
+        "registered": "Registrirano",
+        "mintedBlocks": "Skovani bloki",
+        "resignHeight": "Višina odpovedi",
+        "resignTx": "Transakcija ponovnega podpisa",
+        "banHeight": "Višina prepovedi",
+        "banTx": "Transakcija prepovedi",
+        "resignMasterNode": "Odpovej",
+        "confirmation": "Ali ste prepričani, da se želite odpovedati glavnem vozlišču?",
+        "noButtonText": "Prekliči",
+        "yesButtonText": "Nadaljuj",
+        "successText": "Uspelo je",
+        "backToMasternodePage": "Nazaj na stran glavnega vozlišča"
+      }
+    },
+    "settings": {
+      "title": "Nastavitve – odjemalnik za verigo bloko DeFi",
+      "settings": "Nastavitve",
+      "general": "Splošno",
+      "display": "Prikaz",
+      "launchOptions": "Možnosti zagona",
+      "launchAtLogin": "Zagon ob prijavi",
+      "minimizedAtLaunch": "Minimirano ob zagonu",
+      "storage": "Shramba",
+      "pruneBlockStorage": "Shranjevanje zmanjšanih blokov",
+      "blockPruneStorage": "Shranjevanje blokov za zmanjšanje",
+      "gb": "GB",
+      "utxoConsolidator": "UTXO povezovalnik",
+      "databaseSize": "Velikost predpomnilnika zbirke podatkov",
+      "maximumAmount": "Največja vrednost vsake UTXO",
+      "maximumCount": "Največje število UTXOs",
+      "feeRate": "Določena hitrost v DFI/kB",
+      "mib": "MiB",
+      "scriptVerification": "Potrjevanje skripta",
+      "noOfThreads": "Število niti",
+      "appLanguage": "Jezik aplikacije",
+      "english": "Angleščina",
+      "german": "Nemščina",
+      "displayAmount": "Prikaži količino v enoti",
+      "dFI": "DFI",
+      "fi": "fi",
+      "conversionLabel": "1 %{from} = %{conversion} %{to}",
+      "µDFI": "µDFI",
+      "displayMode": "Način prikaza",
+      "sameAsSystem": "Enako kot sistem",
+      "light": "Svetlo",
+      "dark": "Temno",
+      "unsavedChanges": "Imate neshranjene spremembe",
+      "saveSettings": "Shrani nastavitve",
+      "network": "Omrežje",
+      "mainnet": "Glavno omrežje",
+      "testnet": "Testno omrežje",
+      "regnet": "Registracijsko omrežje"
+    },
+    "wallet": {
+      "sendPage": {
+        "sendDFITitle": "Pošlji DFI – odjemalnik za verigo bloko DeFi",
+        "wallet": "Denarnica",
+        "sendDFI": "Pošlji DFI",
+        "amount": "Vsota",
+        "dFI": "DFI",
+        "max": "NAJVEČ",
+        "toAddress": "Naslov prejemnika",
+        "walletBalance": "Stanje denarnice",
+        "amountToSend": "Vsota za pošiljanje",
+        "cancel": "Prekliči",
+        "continue": "Nadaljuj",
+        "to": "Prejemnik",
+        "pleaseVerifyAmount": "Preverite vsoto in prejemnika",
+        "completeSend": "Dokončaj pošiljanje",
+        "sendFailed": "Pri pošiljanju vsote je prišlo do napake",
+        "transactionSuccessMsg": "Transakcija je bila uspešno izvedena. Stanje vaše denarnice bo posodobljeno, ko veriga blokov DeFi potrdi vašo transakcijo.",
+        "backToWallet": "Nazaj na denarnico",
+        "dfiAddress": "Naslov DFI"
+      },
+      "receivePage": {
+        "receiveDFITitle": "Prejmi DFI – odjemalnik za verigo bloko DeFi",
+        "wallet": "Denarnica",
+        "receiveDFI": "Prejmi DFI",
+        "optional": "Neobvezno",
+        "amount": "Vsota",
+        "dFI": "DFI",
+        "message": "Sporočilo",
+        "label": "Oznaka",
+        "amountToReceive": "Vsota, ki jo boste prejeli",
+        "addressNotAvailable": "Naslov ni na voljo",
+        "cancel": "Prekliči",
+        "continue": "Nadaljuj",
+        "receive": "Prejmi",
+        "newAddressButton": "Nov naslov",
+        "addressLabel": "Oznaka naslova",
+        "createNewAddressNotice": "Svojemu novemu naslovu DFI dodajte smiselno oznako",
+        "createNewReceiveAddressLabel": "Ustvari nov naslov prejemnika",
+        "backButton": "nazaj",
+        "createButton": "Ustvari"
+      },
+      "paymentRequests": {
+        "time": "Čas",
+        "amount": "Vsota",
+        "message": "Sporočilo",
+        "cancelRequest": "Prekliči zahtevo"
+      },
+      "paymentRequestList": {
+        "label": "Oznaka",
+        "address": "Naslov",
+        "created": "Ustvarjeno"
+      },
+      "paymentRequestPage": {
+        "paymentRequestTitle": "Zahteva za plačilo %{id} – odjemalnik za verigo bloko DeFi",
+        "paymentRequest": "Zahteva za plačilo",
+        "wallet": "Denarnica",
+        "delete": "Izbriši",
+        "label": "Oznaka",
+        "amount": "Vsota",
+        "time": "Čas",
+        "message": "Sporočilo",
+        "address": "Naslov",
+        "uRI": "URI"
+      },
+      "walletPage": {
+        "walletDefiClient": "Denarnica – odjemalnik za verigo bloko DeFi",
+        "wallet": "Denarnica",
+        "delete": "Izbriši",
+        "send": "Pošlji",
+        "receive": "Prejmi",
+        "paymentRequests": "Zahteve za plačilo",
+        "noPaymentRequests": "Ni razpoložljivih zahtev za plačilo",
+        "paginationRange": "%{from} – %{to} od %{total} zahtev za plačilo",
+        "transactions": "Transakcije",
+        "availableBalance": "Razpoložljivo stanje",
+        "pending": "V teku"
+      },
+      "walletTxns": {
+        "height": "Višina",
+        "time": "Čas",
+        "amount": "Vsota",
+        "hash": "Ključ",
+        "paginationRange": "%{from} – %{to} od %{total} transakcij",
+        "noTransactions": "Ni razpoložljivih transakcij"
+      }
+    },
+    "console": {
+      "consolePage": {
+        "consoleDefiClient": "Konzola – odjemalnik za verigo bloko DeFi",
+        "defiCliCommand": "Vnesite ukaz odjemalnika Defi",
+        "console": "Konzola",
+        "submit": "Pošlji",
+        "forRef": "Za referenco",
+        "example": [
+          {
+            "title": "naslovprejemnika",
+            "highlightText": "naslovprejemnika \"naslov \"vsota ( \"komentar\" \"komentar_za\" odštejstrošekodvsote nadomesti conf_target \"načinzoceno\" )",
+            "cmdText": "naslovprejemnika odjemalnika defi-cli \"1M72Sfpbz1BPpXFHz9m3CdqATR44Jvaydd\" 0.1 \"donacija\" \"seans outpost\""
+          },
+          {
+            "title": "pridobiblok",
+            "highlightText": "pridobiblok \"ključbloka\" ( verbosity )",
+            "cmdText": "pridobi blok odjemalnika defi-cli \"00000000c937983704a73af28acdec37b049d214adbda81d7e2a3dd146f6ed09\""
+          }
+        ]
+      },
+      "consoleResultPage": {
+        "resultPage": "Rezultat CLI",
+        "back": "Nazaj"
+      }
+    }
+  },
+  "alerts": {
+    "configurationFailure": "Napaka pri konfiguraciji",
+    "walletBalanceFailure": "Napaka pri stanju denarnice",
+    "pendingBalanceFailure": "Napaka stanja v teku",
+    "addReceiveTxnsFailure": "Napaka pri dodajanju transakcije za prejemanje",
+    "removeReceiveTxnsFailure": "Napaka pri odstranjevanju transakcij za prejemanje",
+    "paymentRequestsFailure": "Napaka pri zahtevi za plačilo",
+    "walletTxnsFailure": "Napaka v transakcijah denarnice",
+    "sendDataFailure": "Napaka pri pošiljanju podatkov",
+    "errorOccurred": "Prišlo je do napake",
+    "success": "Uspelo je",
+    "backupSuccess": "Varnostno kopiranje denarnice je uspešno dokončano",
+    "importSuccess": "Uvažanje denarnice je uspešno dokončano",
+    "masterNodeOperatorAddressFailure": "Naslov upravljavca glavnega vozlišča ni prisoten",
+    "restartNode": "Ponovni zagon vozlišča",
+    "nodeDisconnected": "Vozlišče ni priključeno",
+    "electronRequiredError": "Za ponovni zagon potrebujete aplikacijo Electron",
+    "addressIsNotAPartOfWallet": "%{addressName} ni del denarnice."
+  }
+}
