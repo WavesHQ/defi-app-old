@@ -20,6 +20,7 @@ interface MasternodesListProps {
   masternodes: MasterNodeObject[];
   searchQuery: string;
   history: History;
+  activeTab: string;
   fetchMasternodesRequest: () => void;
 }
 
@@ -27,7 +28,12 @@ const MasternodesList: React.FunctionComponent<MasternodesListProps> = (
   props: MasternodesListProps
 ) => {
   const defaultPage = 1;
-  const { masternodes, fetchMasternodesRequest, searchQuery } = props;
+  const {
+    masternodes,
+    fetchMasternodesRequest,
+    searchQuery,
+    activeTab,
+  } = props;
   const [tableData, settableData] = useState<MasterNodeObject[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(defaultPage);
   const [enabledMasternodes, setEnabledMasternodes] = useState<
@@ -40,12 +46,20 @@ const MasternodesList: React.FunctionComponent<MasternodesListProps> = (
 
   useEffect(() => {
     if (masternodes.length > 0) {
-      const enabledMasternodes = masternodes.filter(
-        (masternode) => masternode.state !== RESIGNED_STATE
-      );
+      const isMyMasternodes = activeTab === 'myMasternodes';
+      const enabledMasternodes = masternodes.filter((masternode) => {
+        if (isMyMasternodes) {
+          return (
+            masternode.state !== RESIGNED_STATE && masternode.isMyMasternode
+          );
+        }
+        return (
+          masternode.state !== RESIGNED_STATE && !masternode.isMyMasternode
+        );
+      });
       setEnabledMasternodes(enabledMasternodes);
     }
-  }, [masternodes]);
+  }, [masternodes, activeTab]);
 
   const pageSize = MASTERNODE_LIST_PAGE_SIZE;
   const total = enabledMasternodes.length;
