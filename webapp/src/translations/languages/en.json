@@ -203,6 +203,11 @@
       "regnet": "Regnet"
     },
     "wallet": {
+      "createOrRestoreWalletPage": {
+        "title": "Create or restore wallet",
+        "createANewWallet": "Create a new wallet",
+        "restoreWalletFromMnemonicSeed": "Restore wallet from mnemonic seed"
+      },
       "sendPage": {
         "sendDFITitle": "Send DFI – DeFi Blockchain Client",
         "wallet": "Wallet",
