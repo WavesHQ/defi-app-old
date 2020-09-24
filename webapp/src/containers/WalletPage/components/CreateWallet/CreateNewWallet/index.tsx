@@ -78,12 +78,12 @@ const CreateNewWallet: React.FunctionComponent<{}> = (props: {}) => {
             <CardBody>
               <Row>
                 {Object.keys(dummy).map((key) => (
-                  <Col md='4'>
+                  <Col md='6' lg='4'>
                     <Row>
-                      <Col className={styles.number} md='3'>
+                      <Col className={styles.number} md='4' lg='3'>
                         {key}
                       </Col>
-                      <Col className='text-left' md='9'>
+                      <Col className='text-left' md='8' lg='9'>
                         {dummy[key]}
                         <hr />
                       </Col>
