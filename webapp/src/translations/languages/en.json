@@ -208,9 +208,25 @@
         "createANewWallet": "Create a new wallet",
         "restoreWalletFromMnemonicSeed": "Restore wallet from mnemonic seed"
       },
+      "createNewWalletPage": {
+        "back": "BACK",
+        "title": "Wallet - Create a new wallet",
+        "createANewWallet": "Create a new wallet",
+        "mnemonicGuideline": "Write down the following 24 words below. It is important to write them down in the exact order as displayed. This 24 - word mnemonic seed will be used to recover or transfer your wallet. Without it, you will not be able to recover your wallet. Don't lose it.",
+        "generateNewSet": "Generate a new set of 24 words",
+        "copied24Words": "I've have copied down 24 words in the exact order",
+        "continue": "continue"
+      },
+      "verifyMnemonicPage": {
+        "back": "BACK",
+        "title": "Wallet - Verify mnemonic seed",
+        "verifyMnemonicSeed": "Verify mnemonic seed",
+        "verifyMnemonicGuideline": "To ensure you have written down your 24-word mnemonic seed, please pick out 6 of the words in your mnemonic seed, in the list below.",
+        "showAgain": "Show me my 24 words again"
+      },
       "sendPage": {
-        "sendDFITitle": "Send DFI – DeFi Blockchain Client",
         "wallet": "Wallet",
+        "sendDFITitle": "Send DFI – DeFi Blockchain Client",
         "sendDFI": "Send DFI",
         "amount": "Amount",
         "dFI": "DFI",

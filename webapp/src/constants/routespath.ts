@@ -11,6 +11,7 @@ export const MASTER_NODES_DETAIL_PATH = `${MASTER_NODES_PATH}/:hash`;
 export const SETTING_PATH = '/settings';
 export const WALLET_PAGE_PATH = '/';
 export const WALLET_BASE_PATH = '/wallet';
+export const CREATE_NEW_WALLET_PATH = `${WALLET_BASE_PATH}/createnew`;
 export const WALLET_SEND_PATH = `${WALLET_BASE_PATH}/send`;
 export const WALLET_RECEIVE_PATH = `${WALLET_BASE_PATH}/receive`;
 export const WALLET_CREATE_RECEIVE_REQUEST = `${WALLET_BASE_PATH}/receive/request`;
