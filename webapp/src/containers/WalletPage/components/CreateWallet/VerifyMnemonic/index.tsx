@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { I18n } from 'react-redux-i18n';
 import { NavLink } from 'react-router-dom';
@@ -7,10 +7,11 @@ import { MdArrowBack } from 'react-icons/md';
 import { Row, Col, Button, Card } from 'reactstrap';
 
 import { WALLET_BASE_PATH } from '../../../../../constants';
-import { getMixWords, getRandomWords } from '../../../service';
+
+import styles from '../CreateWallet.module.scss';
 
 interface VerifyMnemonic {
-  mnemonicObj: any;
+  finalMixObj: any;
   mnemonicCode: string;
   isWalletTabActive: boolean;
   setIsWalletTabActive: (isWalletTabActive: boolean) => void;
@@ -19,11 +20,18 @@ interface VerifyMnemonic {
 const VerifyMnemonic: React.FunctionComponent<VerifyMnemonic> = (
   props: VerifyMnemonic
 ) => {
-  const { mnemonicObj, isWalletTabActive, setIsWalletTabActive } = props;
+  const [selectedWords, setSelectedWords] = useState<any>([]);
 
-  const randomWordObj = getRandomWords();
+  const handleSelect = (key: string) => {
+    setSelectedWords([...selectedWords, key]);
+  };
 
-  const finalMixObj = getMixWords(mnemonicObj, randomWordObj);
+  const handleUnselect = (key: string) => {
+    const filteredArray = selectedWords.filter((word) => key !== word);
+    setSelectedWords(filteredArray);
+  };
+
+  const { finalMixObj, isWalletTabActive, setIsWalletTabActive } = props;
 
   return (
     <>
@@ -55,15 +63,29 @@ const VerifyMnemonic: React.FunctionComponent<VerifyMnemonic> = (
           </p>
           <Row className='mb-3'>
             {Object.keys(finalMixObj).map((key) => (
-              <Col lg='2' md='4' className='mb-3'>
-                <Row>
-                  <Col>
-                    <Card className='p-3 text-center' color='link'>
-                      <span>{finalMixObj[key]}</span>
-                    </Card>
-                  </Col>
-                </Row>
-              </Col>
+              <div className='d-flex justify-content-between align-items-center'>
+                <Card
+                  className='p-3 text-center mx-5 my-3'
+                  color={selectedWords.includes(key) ? 'primary' : ''}
+                  onClick={() => {
+                    if (selectedWords.includes(key)) {
+                      handleUnselect(key);
+                    } else if (selectedWords.length < 6) {
+                      handleSelect(key);
+                    }
+                  }}
+                >
+                  <span
+                    className={
+                      selectedWords.includes(key)
+                        ? styles.txtWhite
+                        : styles.txtPrimary
+                    }
+                  >
+                    {finalMixObj[key]}
+                  </span>
+                </Card>
+              </div>
             ))}
           </Row>
           <div className='text-center'>
@@ -87,10 +109,9 @@ const VerifyMnemonic: React.FunctionComponent<VerifyMnemonic> = (
           <Row className='justify-content-between align-items-center'>
             <Col className='d-flex justify-content-end'>
               <Button
-                // to={TOKENS_PATH}
-                // tag={NavLink}
                 color='link'
                 className='mr-3'
+                disabled={!(selectedWords.length === 6)}
               >
                 {I18n.t('containers.wallet.createNewWalletPage.continue')}
               </Button>
