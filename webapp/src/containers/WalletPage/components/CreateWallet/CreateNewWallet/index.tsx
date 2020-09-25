@@ -69,10 +69,14 @@ const CreateNewWallet: React.FunctionComponent<CreateNewWalletProps> = (
                 {Object.keys(mnemonicObj).map((key) => (
                   <Col md='4' sm='12'>
                     <Row>
-                      <Col className={styles.number} md='4' lg='3'>
+                      <Col
+                        className={`${styles.number} text-right`}
+                        md='5'
+                        lg='4'
+                      >
                         {key}
                       </Col>
-                      <Col className='text-left' md='9'>
+                      <Col className='text-left' md='7' lg='8'>
                         {mnemonicObj[key]}
                         <hr />
                       </Col>
