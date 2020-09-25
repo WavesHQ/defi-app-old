@@ -72,32 +72,28 @@ const VerifyMnemonic: React.FunctionComponent<{}> = (props: {}) => {
       <div className='content'>
         <section>
           <p>
-            {I18n.t('containers.wallet.createNewWalletPage.mnemonicGuideline')}
+            {I18n.t(
+              'containers.wallet.verifyMnemonicPage.verifyMnemonicGuideline'
+            )}
           </p>
-          <Card className={styles.margin}>
-            <CardBody>
-              <Row>
-                {Object.keys(dummy).map((key) => (
-                  <Col md='4'>
-                    <Row>
-                      <Col className={styles.number} md='3'>
-                        {key}
-                      </Col>
-                      <Col className='text-left' md='9'>
-                        {dummy[key]}
-                        <hr />
-                      </Col>
-                    </Row>
+          <Row className='mb-3'>
+            {Object.keys(dummy).map((key) => (
+              <Col lg='2' md='4' className='mb-3'>
+                <Row>
+                  <Col>
+                    <Card className='p-3 text-center' color='link'>
+                      <span>{dummy[key]}</span>
+                    </Card>
                   </Col>
-                ))}
-              </Row>
-            </CardBody>
-          </Card>
+                </Row>
+              </Col>
+            ))}
+          </Row>
           <div className='text-center'>
             <Button color='link' size='sm'>
-              <MdRefresh />
+              <MdArrowBack />
               <span className='d-md-inline'>
-                {I18n.t('containers.wallet.createNewWalletPage.generateNewSet')}
+                {I18n.t('containers.wallet.verifyMnemonicPage.showAgain')}
               </span>
             </Button>
           </div>
@@ -106,16 +102,6 @@ const VerifyMnemonic: React.FunctionComponent<{}> = (props: {}) => {
       <footer className='footer-bar'>
         <div>
           <Row className='justify-content-between align-items-center'>
-            <Col className='col-auto'>
-              <FormGroup check>
-                <Label check>
-                  <Input type='checkbox' />{' '}
-                  {I18n.t(
-                    'containers.wallet.createNewWalletPage.copied24Words'
-                  )}
-                </Label>
-              </FormGroup>
-            </Col>
             <Col className='d-flex justify-content-end'>
               <Button
                 // to={TOKENS_PATH}
