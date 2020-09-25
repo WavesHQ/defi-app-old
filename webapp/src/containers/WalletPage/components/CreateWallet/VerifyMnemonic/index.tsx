@@ -3,50 +3,27 @@ import { Helmet } from 'react-helmet';
 import { I18n } from 'react-redux-i18n';
 import { NavLink } from 'react-router-dom';
 import classnames from 'classnames';
-import { MdArrowBack, MdRefresh } from 'react-icons/md';
-import {
-  Row,
-  Col,
-  Button,
-  FormGroup,
-  Label,
-  Input,
-  Card,
-  CardBody,
-} from 'reactstrap';
+import { MdArrowBack } from 'react-icons/md';
+import { Row, Col, Button, Card } from 'reactstrap';
 
 import { WALLET_BASE_PATH } from '../../../../../constants';
-import styles from '../CreateWallet.module.scss';
+import { getMixWords, getRandomWords } from '../../../service';
 
-const dummy = {
-  '1': 'crazy',
-  '2': 'sting',
-  '3': 'force',
-  '4': 'yellow',
-  '5': 'giraffe',
-  '6': 'casino',
-  '7': 'kingdom',
-  '8': 'corn',
-  '9': 'more',
-  '10': 'sustain',
-  '11': 'bicycle',
-  '12': 'theory',
-  '13': 'collect',
-  '14': 'bring',
-  '15': 'century',
-  '16': 'attract',
-  '17': 'foam',
-  '18': 'remove',
-  '19': 'swallow',
-  '20': 'zero',
-  '21': 'call',
-  '22': 'piece',
-  '23': 'strike',
-  '24': 'domain',
-};
+interface VerifyMnemonic {
+  mnemonicObj: any;
+  mnemonicCode: string;
+  isWalletTabActive: boolean;
+  setIsWalletTabActive: (isWalletTabActive: boolean) => void;
+}
 
-const VerifyMnemonic: React.FunctionComponent<{}> = (props: {}) => {
-  const {} = props;
+const VerifyMnemonic: React.FunctionComponent<VerifyMnemonic> = (
+  props: VerifyMnemonic
+) => {
+  const { mnemonicObj, isWalletTabActive, setIsWalletTabActive } = props;
+
+  const randomWordObj = getRandomWords();
+
+  const finalMixObj = getMixWords(mnemonicObj, randomWordObj);
 
   return (
     <>
@@ -77,12 +54,12 @@ const VerifyMnemonic: React.FunctionComponent<{}> = (props: {}) => {
             )}
           </p>
           <Row className='mb-3'>
-            {Object.keys(dummy).map((key) => (
+            {Object.keys(finalMixObj).map((key) => (
               <Col lg='2' md='4' className='mb-3'>
                 <Row>
                   <Col>
                     <Card className='p-3 text-center' color='link'>
-                      <span>{dummy[key]}</span>
+                      <span>{finalMixObj[key]}</span>
                     </Card>
                   </Col>
                 </Row>
@@ -90,7 +67,13 @@ const VerifyMnemonic: React.FunctionComponent<{}> = (props: {}) => {
             ))}
           </Row>
           <div className='text-center'>
-            <Button color='link' size='sm'>
+            <Button
+              color='link'
+              size='sm'
+              onClick={() => {
+                setIsWalletTabActive(!isWalletTabActive);
+              }}
+            >
               <MdArrowBack />
               <span className='d-md-inline'>
                 {I18n.t('containers.wallet.verifyMnemonicPage.showAgain')}

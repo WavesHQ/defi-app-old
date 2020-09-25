@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { I18n } from 'react-redux-i18n';
 import { NavLink } from 'react-router-dom';
@@ -18,35 +18,24 @@ import {
 import { WALLET_BASE_PATH } from '../../../../../constants';
 import styles from '../CreateWallet.module.scss';
 
-const dummy = {
-  '1': 'crazy',
-  '2': 'sting',
-  '3': 'force',
-  '4': 'yellow',
-  '5': 'giraffe',
-  '6': 'casino',
-  '7': 'kingdom',
-  '8': 'corn',
-  '9': 'more',
-  '10': 'sustain',
-  '11': 'bicycle',
-  '12': 'theory',
-  '13': 'collect',
-  '14': 'bring',
-  '15': 'century',
-  '16': 'attract',
-  '17': 'foam',
-  '18': 'remove',
-  '19': 'swallow',
-  '20': 'zero',
-  '21': 'call',
-  '22': 'piece',
-  '23': 'strike',
-  '24': 'domain',
-};
+interface CreateNewWalletProps {
+  mnemonicObj: any;
+  isWalletTabActive: boolean;
+  generateNewMnemonic: () => void;
+  setIsWalletTabActive: (isWalletTabActive: boolean) => void;
+}
 
-const CreateNewWallet: React.FunctionComponent<{}> = (props: {}) => {
-  const {} = props;
+const CreateNewWallet: React.FunctionComponent<CreateNewWalletProps> = (
+  props: CreateNewWalletProps
+) => {
+  const {
+    mnemonicObj,
+    generateNewMnemonic,
+    isWalletTabActive,
+    setIsWalletTabActive,
+  } = props;
+
+  const [isChecked, setIsChecked] = useState(false);
 
   return (
     <>
@@ -77,14 +66,14 @@ const CreateNewWallet: React.FunctionComponent<{}> = (props: {}) => {
           <Card className={styles.margin}>
             <CardBody>
               <Row>
-                {Object.keys(dummy).map((key) => (
-                  <Col md='6' lg='4'>
+                {Object.keys(mnemonicObj).map((key) => (
+                  <Col md='4' sm='12'>
                     <Row>
                       <Col className={styles.number} md='4' lg='3'>
                         {key}
                       </Col>
-                      <Col className='text-left' md='8' lg='9'>
-                        {dummy[key]}
+                      <Col className='text-left' md='9'>
+                        {mnemonicObj[key]}
                         <hr />
                       </Col>
                     </Row>
@@ -94,7 +83,7 @@ const CreateNewWallet: React.FunctionComponent<{}> = (props: {}) => {
             </CardBody>
           </Card>
           <div className='text-center'>
-            <Button color='link' size='sm'>
+            <Button color='link' size='sm' onClick={generateNewMnemonic}>
               <MdRefresh />
               <span className='d-md-inline'>
                 {I18n.t('containers.wallet.createNewWalletPage.generateNewSet')}
@@ -109,7 +98,11 @@ const CreateNewWallet: React.FunctionComponent<{}> = (props: {}) => {
             <Col className='col-auto'>
               <FormGroup check>
                 <Label check>
-                  <Input type='checkbox' />{' '}
+                  <Input
+                    type='checkbox'
+                    onClick={() => setIsChecked(!isChecked)}
+                  />
+                  &nbsp;
                   {I18n.t(
                     'containers.wallet.createNewWalletPage.copied24Words'
                   )}
@@ -122,6 +115,10 @@ const CreateNewWallet: React.FunctionComponent<{}> = (props: {}) => {
                 // tag={NavLink}
                 color='link'
                 className='mr-3'
+                disabled={!isChecked}
+                onClick={() => {
+                  setIsWalletTabActive(!isWalletTabActive);
+                }}
               >
                 {I18n.t('containers.wallet.createNewWalletPage.continue')}
               </Button>

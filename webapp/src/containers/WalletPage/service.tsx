@@ -4,6 +4,7 @@ import { PAYMENT_REQUEST, BLOCKCHAIN_INFO_CHAIN_TEST } from '../../constants';
 import PersistentStore from '../../utils/persistentStore';
 import { I18n } from 'react-redux-i18n';
 import showNotification from '../../utils/notifications';
+import { getMixWordsObject, getMnemonicObject, getRandomWordObject } from '../../utils/utility';
 
 const handleLocalStorageName = (networkName) => {
   if (networkName === BLOCKCHAIN_INFO_CHAIN_TEST) {
@@ -131,3 +132,15 @@ export const getBlockChainInfo = () => {
   const rpcClient = new RpcClient();
   return rpcClient.getBlockChainInfo();
 };
+
+export const getMnemonic = () => {
+  return getMnemonicObject();
+}
+
+export const getRandomWords = () => {
+  return getRandomWordObject();
+}
+
+export const getMixWords = (mnemonicObject: any, randomWordObject: any) => {
+  return getMixWordsObject(mnemonicObject, randomWordObject);
+}
