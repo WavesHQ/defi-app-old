@@ -1,4 +1,4 @@
-import bip39 from 'bip39';
+import * as bip39 from 'bip39';
 import * as bip32 from 'bip32';
 import randomBinary from 'random-binary';
 import bitcoin from 'bitcoinjs-lib';
@@ -6,12 +6,12 @@ import bitcoin from 'bitcoinjs-lib';
 export default class Mnemonic {
   constructor() {}
 
-  getRandomEntropy = () => {
-    return randomBinary({ bit: 64 });
+  getRandomEntropy = (bits: number) => {
+    return randomBinary({ bit: bits });
   };
 
-  createMnemonic = () => {
-    const entropy = this.getRandomEntropy();
+  createMnemonic = (entropyBits: number) => {
+    const entropy = this.getRandomEntropy(entropyBits);
     return bip39.entropyToMnemonic(entropy);
   };
 

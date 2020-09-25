@@ -536,6 +536,14 @@ export default class RpcClient {
     return data.result;
   };
 
+  setHdSeed = async (newkeypool: boolean = true, seed: string) => {
+    const { data } = await this.call('/', methodNames.SET_HD_SEED, [
+      newkeypool,
+      seed,
+    ]);
+    return data.result;
+  };
+
   getaddressInfo = async (address: string) => {
     const { data } = await this.call('/', methodNames.GET_ADDRESS_INFO, [
       address,
