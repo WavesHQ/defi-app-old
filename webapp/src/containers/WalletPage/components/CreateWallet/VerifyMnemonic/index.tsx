@@ -39,7 +39,7 @@ const VerifyMnemonic: React.FunctionComponent<VerifyMnemonic> = (
   };
 
   const handleUnselect = (Obj) => {
-    const filteredArray = selectedWords.filter((word) => Obj !== word);
+    const filteredArray = selectedWords.filter((word) => Obj.key !== word.key);
     setSelectedWords(filteredArray);
   };
 
