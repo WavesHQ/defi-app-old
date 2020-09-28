@@ -5,12 +5,14 @@ import { NavLink } from 'react-router-dom';
 import classnames from 'classnames';
 import { MdArrowBack } from 'react-icons/md';
 import { Row, Col, Button, Card } from 'reactstrap';
+import { checkElementsInArray } from '../../../../../utils/utility';
 
 import { WALLET_BASE_PATH } from '../../../../../constants';
 
 import styles from '../CreateWallet.module.scss';
 
 interface VerifyMnemonic {
+  mnemonicObj: any;
   finalMixObj: any;
   mnemonicCode: string;
   isWalletTabActive: boolean;
@@ -21,17 +23,24 @@ const VerifyMnemonic: React.FunctionComponent<VerifyMnemonic> = (
   props: VerifyMnemonic
 ) => {
   const [selectedWords, setSelectedWords] = useState<any>([]);
+  const [mnemonicCheck, setMnemonicCheck] = useState(false);
 
-  const handleSelect = (key: string) => {
-    setSelectedWords([...selectedWords, key]);
+  const {
+    finalMixObj,
+    isWalletTabActive,
+    setIsWalletTabActive,
+    mnemonicObj,
+  } = props;
+
+  const handleSelect = (Obj) => {
+    setSelectedWords([...selectedWords, Obj]);
+    setMnemonicCheck(checkElementsInArray(selectedWords, mnemonicObj));
   };
 
-  const handleUnselect = (key: string) => {
-    const filteredArray = selectedWords.filter((word) => key !== word);
+  const handleUnselect = (Obj) => {
+    const filteredArray = selectedWords.filter((word) => Obj !== word);
     setSelectedWords(filteredArray);
   };
-
-  const { finalMixObj, isWalletTabActive, setIsWalletTabActive } = props;
 
   return (
     <>
@@ -66,18 +75,28 @@ const VerifyMnemonic: React.FunctionComponent<VerifyMnemonic> = (
               <div className='d-flex justify-content-between align-items-center'>
                 <Card
                   className='p-3 text-center mx-5 my-3'
-                  color={selectedWords.includes(key) ? 'primary' : ''}
+                  color={
+                    selectedWords.some((obj) => obj.key === key)
+                      ? 'primary'
+                      : ''
+                  }
                   onClick={() => {
-                    if (selectedWords.includes(key)) {
-                      handleUnselect(key);
+                    if (selectedWords.some((obj) => obj.key === key)) {
+                      handleUnselect({
+                        key,
+                        value: finalMixObj[key],
+                      });
                     } else if (selectedWords.length < 6) {
-                      handleSelect(key);
+                      handleSelect({
+                        key,
+                        value: finalMixObj[key],
+                      });
                     }
                   }}
                 >
                   <span
                     className={
-                      selectedWords.includes(key)
+                      selectedWords.some((obj) => obj.key === key)
                         ? styles.txtWhite
                         : styles.txtPrimary
                     }
@@ -111,7 +130,7 @@ const VerifyMnemonic: React.FunctionComponent<VerifyMnemonic> = (
               <Button
                 color='link'
                 className='mr-3'
-                disabled={!(selectedWords.length === 6)}
+                disabled={!(selectedWords.length === 6) && !mnemonicCheck}
               >
                 {I18n.t('containers.wallet.createNewWalletPage.continue')}
               </Button>

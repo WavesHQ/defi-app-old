@@ -33,6 +33,7 @@ const CreateWallet: React.FunctionComponent = () => {
         />
       ) : (
         <VerifyMnemonic
+          mnemonicObj={mnemonicObj}
           finalMixObj={finalMixObj}
           mnemonicCode={mnemonicCode}
           isWalletTabActive={isWalletTabActive}

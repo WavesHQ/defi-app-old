@@ -374,9 +374,12 @@ export const shuffleArray = (array: string[]): string[] => {
 };
 
 export const checkElementsInArray = (
-  selectedWordArray: string[],
+  selectedWordObjectArray: any[],
   mnemonicObject: any
 ): boolean => {
+  const selectedWordArray = selectedWordObjectArray.map(
+    (wordObj) => wordObj.value
+  );
   const mnemonicWordArray = _.values(mnemonicObject);
   return selectedWordArray.every((word) => mnemonicWordArray.includes(word));
 };
