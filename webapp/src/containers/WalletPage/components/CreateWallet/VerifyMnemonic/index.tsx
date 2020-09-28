@@ -33,8 +33,9 @@ const VerifyMnemonic: React.FunctionComponent<VerifyMnemonic> = (
   } = props;
 
   const handleSelect = (Obj) => {
-    setSelectedWords([...selectedWords, Obj]);
-    setMnemonicCheck(checkElementsInArray(selectedWords, mnemonicObj));
+    const tempArray = [...selectedWords, Obj];
+    setSelectedWords(tempArray);
+    setMnemonicCheck(checkElementsInArray(tempArray, mnemonicObj));
   };
 
   const handleUnselect = (Obj) => {

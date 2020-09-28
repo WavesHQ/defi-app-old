@@ -380,6 +380,9 @@ export const checkElementsInArray = (
   const selectedWordArray = selectedWordObjectArray.map(
     (wordObj) => wordObj.value
   );
+  if (selectedWordArray.length < 6) {
+    return false;
+  }
   const mnemonicWordArray = _.values(mnemonicObject);
   return selectedWordArray.every((word) => mnemonicWordArray.includes(word));
 };
