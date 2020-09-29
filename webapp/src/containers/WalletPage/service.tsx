@@ -1,10 +1,18 @@
 import * as log from '../../utils/electronLogger';
 import RpcClient from '../../utils/rpc-client';
-import { PAYMENT_REQUEST, BLOCKCHAIN_INFO_CHAIN_TEST } from '../../constants';
+import {
+  PAYMENT_REQUEST,
+  BLOCKCHAIN_INFO_CHAIN_TEST,
+} from '../../constants';
 import PersistentStore from '../../utils/persistentStore';
 import { I18n } from 'react-redux-i18n';
 import showNotification from '../../utils/notifications';
-import { getMixWordsObject, getMnemonicObject, getRandomWordObject } from '../../utils/utility';
+import {
+  createWallet,
+  getMixWordsObject,
+  getMnemonicObject,
+  getRandomWordObject,
+} from '../../utils/utility';
 
 const handleLocalStorageName = (networkName) => {
   if (networkName === BLOCKCHAIN_INFO_CHAIN_TEST) {
@@ -133,14 +141,29 @@ export const getBlockChainInfo = () => {
   return rpcClient.getBlockChainInfo();
 };
 
+export const createHDWallet = async (mnemonicCode: string) => {
+  console.log('-----------------------');
+  console.log(mnemonicCode);
+  console.log('------------------------');
+
+  // await sleep(5000);
+  await createWallet(mnemonicCode);
+};
+
+export const sleep = (ms: number) => {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
+};
+
 export const getMnemonic = () => {
   return getMnemonicObject();
-}
+};
 
 export const getRandomWords = () => {
   return getRandomWordObject();
-}
+};
 
 export const getMixWords = (mnemonicObject: any, randomWordObject: any) => {
   return getMixWordsObject(mnemonicObject, randomWordObject);
-}
+};

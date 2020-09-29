@@ -33,6 +33,7 @@ export const initialState = {
     sendStep: 'default',
     waitToSend: 5,
   },
+  isWalletCreating: false
 };
 const configSlice = createSlice({
   name: 'wallet',
@@ -109,6 +110,15 @@ const configSlice = createSlice({
     setBlockChainInfo(state, action) {
       state.blockChainInfo = action.payload;
     },
+    createWalletRequest(state, action) {
+      state.isWalletCreating = true;
+    },
+    createWalletSuccess(state){
+      state.isWalletCreating = false;
+    },
+    createWalletFailure(state){
+      state.isWalletCreating = false;
+    }
   },
 });
 
@@ -138,6 +148,9 @@ export const {
   fetchPendingBalanceFailure,
   stopWalletTxnPagination,
   setBlockChainInfo,
+  createWalletRequest,
+  createWalletSuccess,
+  createWalletFailure
 } = actions;
 
 export default reducer;

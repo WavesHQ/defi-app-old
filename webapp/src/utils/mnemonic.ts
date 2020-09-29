@@ -1,7 +1,9 @@
 import * as bip39 from 'bip39';
 import * as bip32 from 'bip32';
 import randomBinary from 'random-binary';
-import bitcoin from 'bitcoinjs-lib';
+
+import store from '../app/rootStore';
+import { getNetwork } from './utility';
 
 export default class Mnemonic {
   constructor() {}
@@ -20,22 +22,28 @@ export default class Mnemonic {
   };
 
   createSeed = (mnemonic: string, passphrase: string = '') => {
-    return bip39.mnemonicToSeedSync(mnemonic, passphrase);
+    const seed: Buffer = bip39.mnemonicToSeedSync(mnemonic, passphrase);
+    return seed;
   };
 
-  getRootNode = (seed) => {
-    return bip32.fromSeed(seed);
-  }
+  createRoot = (seed: Buffer) => {
+    const state = store.getState();
+    const blockChainInfo: any = state.wallet.blockChainInfo;
+    console.log('blockchain info------', blockChainInfo);
+    const network = getNetwork(blockChainInfo.chain);
+    console.log('network---------', network);
+    return bip32.fromSeed(seed, network);
+  };
 
-  getRootPrivateKey = (rootNode) => {
-    return rootNode.privateKey.toString('hex');
-  }
+  getRootPrivateKey = (root) => {
+    return root.privateKey.toString('hex');
+  };
 
-  getRootPublicKey = (rootNode) => {
-    return rootNode.publicKey.toString('hex');
-  }
+  getRootPublicKey = (root) => {
+    return root.publicKey.toString('hex');
+  };
 
-  getPrivateKeyInWIF = (rootNode) => {
-    return rootNode.toWIF();
-  }
+  getPrivateKeyInWIF = (root) => {
+    return root.toWIF();
+  };
 }

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { I18n } from 'react-redux-i18n';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Redirect } from 'react-router-dom';
 import classnames from 'classnames';
 import { MdArrowBack } from 'react-icons/md';
 import { Row, Col, Button, Card } from 'reactstrap';
@@ -10,13 +10,19 @@ import { checkElementsInArray } from '../../../../../utils/utility';
 import { WALLET_BASE_PATH } from '../../../../../constants';
 
 import styles from '../CreateWallet.module.scss';
+import { createWalletRequest } from '../../../reducer';
+import { connect } from 'react-redux';
+import WalletLoadingFooter from '../../../../../components/WalletLoadingFooter';
 
 interface VerifyMnemonic {
   mnemonicObj: any;
   finalMixObj: any;
   mnemonicCode: string;
   isWalletTabActive: boolean;
+  isWalletCreating: boolean;
+  history: any;
   setIsWalletTabActive: (isWalletTabActive: boolean) => void;
+  createWallet: (mnemonicCode: string, history: any) => void;
 }
 
 const VerifyMnemonic: React.FunctionComponent<VerifyMnemonic> = (
@@ -30,12 +36,17 @@ const VerifyMnemonic: React.FunctionComponent<VerifyMnemonic> = (
     isWalletTabActive,
     setIsWalletTabActive,
     mnemonicObj,
+    history,
+    isWalletCreating,
+    mnemonicCode,
+    createWallet,
   } = props;
 
   const handleSelect = (Obj) => {
     const tempArray = [...selectedWords, Obj];
     setSelectedWords(tempArray);
-    setMnemonicCheck(checkElementsInArray(tempArray, mnemonicObj));
+    const check = checkElementsInArray(tempArray, mnemonicObj);
+    setMnemonicCheck(check);
   };
 
   const handleUnselect = (Obj) => {
@@ -125,22 +136,41 @@ const VerifyMnemonic: React.FunctionComponent<VerifyMnemonic> = (
         </section>
       </div>
       <footer className='footer-bar'>
-        <div>
-          <Row className='justify-content-between align-items-center'>
-            <Col className='d-flex justify-content-end'>
-              <Button
-                color='link'
-                className='mr-3'
-                disabled={!(selectedWords.length === 6) && !mnemonicCheck}
-              >
-                {I18n.t('containers.wallet.createNewWalletPage.continue')}
-              </Button>
-            </Col>
-          </Row>
-        </div>
+        {isWalletCreating ? (
+          <WalletLoadingFooter message={'Creating your wallet'} />
+        ) : (
+          <div>
+            <Row className='justify-content-between align-items-center'>
+              <Col className='d-flex justify-content-end'>
+                <Button
+                  color='link'
+                  className='mr-3'
+                  disabled={!(selectedWords.length === 6) || !mnemonicCheck}
+                  onClick={() => {
+                    createWallet(mnemonicCode, history);
+                  }}
+                >
+                  {I18n.t('containers.wallet.createNewWalletPage.continue')}
+                </Button>
+              </Col>
+            </Row>
+          </div>
+        )}
       </footer>
     </>
   );
 };
 
-export default VerifyMnemonic;
+const mapStateToProps = (state) => {
+  const { wallet } = state;
+  const { isWalletCreating } = wallet;
+  return {
+    isWalletCreating,
+  };
+};
+
+const mapDispatchToProps = {
+  createWallet: (mnemonicCode, history) => createWalletRequest({ mnemonicCode, history }),
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(VerifyMnemonic);

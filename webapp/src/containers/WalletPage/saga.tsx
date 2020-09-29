@@ -24,6 +24,9 @@ import {
   fetchPendingBalanceFailure,
   stopWalletTxnPagination,
   setBlockChainInfo,
+  createWalletFailure,
+  createWalletSuccess,
+  createWalletRequest,
 } from './reducer';
 import {
   handelGetPaymentRequest,
@@ -35,6 +38,7 @@ import {
   handleFetchPendingBalance,
   getAddressInfo,
   getBlockChainInfo,
+  createHDWallet,
 } from './service';
 import queue from '../../worker/queue';
 import store from '../../app/rootStore';
@@ -44,7 +48,8 @@ import { I18n } from 'react-redux-i18n';
 import uniqBy from 'lodash/uniqBy';
 import cloneDeep from 'lodash/cloneDeep';
 import isEmpty from 'lodash/isEmpty';
-import { MAX_WALLET_TXN_PAGE_SIZE } from '../../constants';
+import { MAX_WALLET_TXN_PAGE_SIZE, WALLET_PAGE_PATH } from '../../constants';
+import PersistentStore from '../../utils/persistentStore';
 
 export function* getNetwork() {
   const {
@@ -223,6 +228,20 @@ export function* fetchChainInfo() {
   yield put(setBlockChainInfo(result));
 }
 
+export function* createWallet(action) {
+  try {
+    const {
+      payload: { mnemonicCode, history },
+    } = action;
+    yield call(createHDWallet, mnemonicCode);
+    yield put({ type: createWalletSuccess.type });
+    history.push(WALLET_PAGE_PATH);
+  } catch (err) {
+    log.error(err.message);
+    yield put(createWalletFailure);
+  }
+}
+
 function* mySaga() {
   yield takeLatest(addReceiveTxnsRequest.type, addReceiveTxns);
   yield takeLatest(removeReceiveTxnsRequest.type, removeReceiveTxns);
@@ -231,6 +250,7 @@ function* mySaga() {
   yield takeLatest(fetchSendDataRequest.type, fetchSendData);
   yield takeLatest(fetchWalletBalanceRequest.type, fetchWalletBalance);
   yield takeLatest(fetchPendingBalanceRequest.type, fetchPendingBalance);
+  yield takeLatest(createWalletRequest.type, createWallet);
 }
 
 export default mySaga;

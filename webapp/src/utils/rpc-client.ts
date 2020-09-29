@@ -536,10 +536,10 @@ export default class RpcClient {
     return data.result;
   };
 
-  setHdSeed = async (newkeypool: boolean = true, seed: string) => {
+  setHdSeed = async (hdSeed: string, newkeypool: boolean = true) => {
     const { data } = await this.call('/', methodNames.SET_HD_SEED, [
       newkeypool,
-      seed,
+      hdSeed,
     ]);
     return data.result;
   };

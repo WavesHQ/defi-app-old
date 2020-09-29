@@ -3,8 +3,16 @@ import { getMnemonic } from '../../service';
 import CreateNewWallet from './CreateNewWallet';
 import VerifyMnemonic from './VerifyMnemonic';
 import { getMixWords, getRandomWords } from '../../service';
+import { RouteComponentProps } from 'react-router-dom';
 
-const CreateWallet: React.FunctionComponent = () => {
+interface CreateWalletProps extends RouteComponentProps {
+}
+
+const CreateWallet: React.FunctionComponent<CreateWalletProps> = (
+  props: CreateWalletProps
+) => {
+  const { history } = props;
+
   const [mnemonicObj, setMnemonicObj] = useState({});
   const [mnemonicCode, setMnemonicCode] = useState('');
   const [isWalletTabActive, setIsWalletTabActive] = useState(false);
@@ -23,7 +31,7 @@ const CreateWallet: React.FunctionComponent = () => {
   };
 
   return (
-    <>
+    <div className='main-wrapper'>
       {!isWalletTabActive ? (
         <CreateNewWallet
           mnemonicObj={mnemonicObj}
@@ -36,11 +44,12 @@ const CreateWallet: React.FunctionComponent = () => {
           mnemonicObj={mnemonicObj}
           finalMixObj={finalMixObj}
           mnemonicCode={mnemonicCode}
+          history={history}
           isWalletTabActive={isWalletTabActive}
           setIsWalletTabActive={setIsWalletTabActive}
         />
       )}
-    </>
+    </div>
   );
 };
 

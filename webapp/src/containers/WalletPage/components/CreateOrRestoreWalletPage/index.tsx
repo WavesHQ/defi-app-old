@@ -1,15 +1,26 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import { I18n } from 'react-redux-i18n';
-import { Row } from 'reactstrap';
+import { Col, Row } from 'reactstrap';
 import { MdAccountBalanceWallet } from 'react-icons/md';
 import WalletStatCard from '../../../../components/WalletStatCard';
+import { WALLET_BASE_PATH } from '../../../../constants';
 
-const CreateOrRestoreWalletPage: React.FunctionComponent = () => {
+interface CreateOrRestoreWalletPageProps {
+  history: any;
+}
+
+const CreateOrRestoreWalletPage: React.FunctionComponent<CreateOrRestoreWalletPageProps> = (
+  props: CreateOrRestoreWalletPageProps
+) => {
+  const { history } = props;
+
   return (
     <div>
       <Helmet>
-        <title>Create or restore wallet</title>
+        <title>
+          {I18n.t('containers.wallet.createOrRestoreWalletPage.title')}
+        </title>
       </Helmet>
       <header className='header-bar'>
         <h1>{I18n.t('containers.wallet.createOrRestoreWalletPage.title')}</h1>
@@ -17,19 +28,30 @@ const CreateOrRestoreWalletPage: React.FunctionComponent = () => {
       <div className='content'>
         <section>
           <Row>
-            <WalletStatCard
-              label={I18n.t(
-                'containers.wallet.createOrRestoreWalletPage.createANewWallet'
-              )}
-              icon={<MdAccountBalanceWallet size={50} />}
-            />
-
-            <WalletStatCard
-              label={I18n.t(
-                'containers.wallet.createOrRestoreWalletPage.restoreWalletFromMnemonicSeed'
-              )}
-              icon={<MdAccountBalanceWallet size={50} />}
-            />
+            <Col>
+              <div
+                onClick={() => {
+                  history.push(WALLET_BASE_PATH);
+                }}
+              >
+                <WalletStatCard
+                  label={I18n.t(
+                    'containers.wallet.createOrRestoreWalletPage.createANewWallet'
+                  )}
+                  icon={<MdAccountBalanceWallet size={50} />}
+                />
+              </div>
+            </Col>
+            <Col>
+              <div>
+                <WalletStatCard
+                  label={I18n.t(
+                    'containers.wallet.createOrRestoreWalletPage.restoreWalletFromMnemonicSeed'
+                  )}
+                  icon={<MdAccountBalanceWallet size={50} />}
+                />
+              </div>
+            </Col>
           </Row>
         </section>
       </div>

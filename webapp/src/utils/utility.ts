@@ -3,6 +3,7 @@ import * as log from './electronLogger';
 import moment from 'moment';
 import SHA256 from 'crypto-js/sha256';
 import _ from 'lodash';
+import * as bitcoin from 'bitcoinjs-lib';
 
 import { IAddressAndAmount, ITxn, IBlock, IParseTxn } from './interfaces';
 import {
@@ -17,6 +18,8 @@ import {
   MAX_WORD_INDEX,
   TOTAL_WORD_LENGTH,
   RANDOM_WORD_LENGTH,
+  MAIN,
+  TEST,
 } from '../constants';
 import { unitConversion } from './unitConversion';
 import BigNumber from 'bignumber.js';
@@ -380,9 +383,48 @@ export const checkElementsInArray = (
   const selectedWordArray = selectedWordObjectArray.map(
     (wordObj) => wordObj.value
   );
+
   if (selectedWordArray.length < 6) {
     return false;
   }
+
   const mnemonicWordArray = _.values(mnemonicObject);
-  return selectedWordArray.every((word) => mnemonicWordArray.includes(word));
+  console.log('selected word array-------', selectedWordArray);
+  console.log('mnemonic word array------------------', mnemonicWordArray);
+
+  const tempValue = selectedWordArray.every((word) =>
+    mnemonicWordArray.includes(word)
+  );
+  console.log('tempValue----------', tempValue);
+  return tempValue;
+};
+
+export const createWallet = async (mnemonicCode: string) => {
+  try{
+  const mnemonic = new Mnemonic();
+  const rpcClient = new RpcClient();
+
+  console.log('mnemonic code----------', mnemonicCode);
+  const seed = mnemonic.createSeed(mnemonicCode);
+  console.log('seed created-----------', seed, seed.toString('hex'));
+  const root = mnemonic.createRoot(seed);
+  console.log('root node created------------------', root);
+  const hdSeed = mnemonic.getPrivateKeyInWIF(root);
+  console.log('hd seed----------------', hdSeed);
+
+  await rpcClient.setHdSeed(hdSeed);
+  console.log('sethdseed rpc call finished');
+  }catch(e){
+    console.log(e);
+  }
+};
+
+export const getNetwork = (chain: string) => {
+  if (chain === MAIN) {
+    return bitcoin.networks.bitcoin;
+  }
+  if (chain === TEST) {
+    return bitcoin.networks.testnet;
+  }
+  return bitcoin.networks.regtest;
 };

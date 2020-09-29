@@ -37,3 +37,5 @@ export const MIN_WORD_INDEX = 1;
 export const MAX_WORD_INDEX = 4;
 export const TOTAL_WORD_LENGTH = 24;
 export const RANDOM_WORD_LENGTH = 18;
+export const IS_WALLET_CREATED = 'isWalletCreated';
+export const MAIN = 'main';

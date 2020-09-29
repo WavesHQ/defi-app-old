@@ -12,7 +12,6 @@ const WalletStatCard: React.FunctionComponent<WalletStatCardProps> = (
 ) => {
   const { label, icon } = props;
   return (
-    <Col>
       <Card>
         <CardBody>
           <div className={styles.icon}>
@@ -25,7 +24,6 @@ const WalletStatCard: React.FunctionComponent<WalletStatCardProps> = (
           </div>
         </CardFooter>
       </Card>
-    </Col>
   );
 };
 
