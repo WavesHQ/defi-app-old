@@ -30,3 +30,5 @@ export const CLOSE_APP = 'close-app';
 export const FORCE_KILL_QUEUE_AND_SHUTDOWN = 'force-kill-queue-and-shutdown';
 
 export const WALLET_BACKUP = 'wallet-backup';
+
+export const CREATE_MNEMONIC = 'create-mnemonic';

@@ -38,7 +38,6 @@ import {
   handleFetchPendingBalance,
   getAddressInfo,
   getBlockChainInfo,
-  createHDWallet,
 } from './service';
 import queue from '../../worker/queue';
 import store from '../../app/rootStore';
@@ -50,6 +49,7 @@ import cloneDeep from 'lodash/cloneDeep';
 import isEmpty from 'lodash/isEmpty';
 import { MAX_WALLET_TXN_PAGE_SIZE, WALLET_PAGE_PATH } from '../../constants';
 import PersistentStore from '../../utils/persistentStore';
+import { createMnemonicIpcRenderer } from '../../app/update.ipcRenderer';
 
 export function* getNetwork() {
   const {
@@ -233,7 +233,10 @@ export function* createWallet(action) {
     const {
       payload: { mnemonicCode, history },
     } = action;
-    yield call(createHDWallet, mnemonicCode);
+    const res = yield call(createMnemonicIpcRenderer, mnemonicCode);
+    console.log({
+      res, // TODO: WIF is here
+    });
     yield put({ type: createWalletSuccess.type });
     history.push(WALLET_PAGE_PATH);
   } catch (err) {
