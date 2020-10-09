@@ -1,6 +1,5 @@
 import * as bip39 from 'bip39';
 import * as bip32 from 'bip32';
-import * as bitcoin from 'bitcoinjs-lib';
 
 export default class Mnemonic {
   constructor() {}
@@ -14,8 +13,8 @@ export default class Mnemonic {
     return seed;
   };
 
-  createRoot = (seed: Buffer) => {
-    return bip32.fromSeed(seed, bitcoin.networks.testnet);
+  createRoot = (seed: Buffer,network: any) => {
+    return bip32.fromSeed(seed, network);
   };
 
   getRootPrivateKey = (root: any) => {
