@@ -142,7 +142,7 @@ const mapStateToProps = (state) => {
       updateAppInfo,
       isRestart,
       isMinimized,
-    }
+    },
   } = state;
   return {
     locale,

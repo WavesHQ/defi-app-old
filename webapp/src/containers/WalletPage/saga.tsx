@@ -1,6 +1,9 @@
 import { call, put, takeLatest, select, all } from 'redux-saga/effects';
 import * as log from '../../utils/electronLogger';
 import {
+  fetchTokensSuccess,
+  fetchTokensRequest,
+  fetchTokensFailure,
   fetchPaymentRequest,
   fetchPaymentRequestsSuccess,
   fetchPaymentRequestsFailure,
@@ -22,10 +25,14 @@ import {
   fetchPendingBalanceRequest,
   fetchPendingBalanceSuccess,
   fetchPendingBalanceFailure,
+  fetchAccountTokensRequest,
+  fetchAccountTokensSuccess,
+  fetchAccountTokensFailure,
   stopWalletTxnPagination,
   setBlockChainInfo,
 } from './reducer';
 import {
+  handleFetchTokens,
   handelGetPaymentRequest,
   handelAddReceiveTxns,
   handelFetchWalletTxns,
@@ -33,12 +40,15 @@ import {
   handleFetchWalletBalance,
   handelRemoveReceiveTxns,
   handleFetchPendingBalance,
+  handleAccountFetchTokens,
   getAddressInfo,
   getBlockChainInfo,
+  handleFetchAccounts,
 } from './service';
 import store from '../../app/rootStore';
 import showNotification from '../../utils/notifications';
-import { paginate, queuePush } from '../../utils/utility';
+import { paginate, getErrorMessage } from '../../utils/utility';
+import { queuePush } from '../../utils/utility';
 import { I18n } from 'react-redux-i18n';
 import uniqBy from 'lodash/uniqBy';
 import cloneDeep from 'lodash/cloneDeep';
@@ -218,6 +228,35 @@ export function* fetchChainInfo() {
   yield put(setBlockChainInfo(result));
 }
 
+export function* fetchTokens() {
+  try {
+    const data = yield call(handleFetchTokens);
+    yield put({
+      type: fetchTokensSuccess.type,
+      payload: { tokens: data },
+    });
+  } catch (e) {
+    yield put({ type: fetchTokensFailure.type, payload: e.message });
+    log.error(e);
+  }
+}
+
+export function* fetchAccountTokens() {
+  try {
+    const data = yield call(handleFetchAccounts);
+    yield put({
+      type: fetchAccountTokensSuccess.type,
+      payload: { accountTokens: data },
+    });
+  } catch (e) {
+    yield put({
+      type: fetchAccountTokensFailure.type,
+      payload: getErrorMessage(e),
+    });
+    log.error(e);
+  }
+}
+
 function* mySaga() {
   yield takeLatest(addReceiveTxnsRequest.type, addReceiveTxns);
   yield takeLatest(removeReceiveTxnsRequest.type, removeReceiveTxns);
@@ -226,6 +265,8 @@ function* mySaga() {
   yield takeLatest(fetchSendDataRequest.type, fetchSendData);
   yield takeLatest(fetchWalletBalanceRequest.type, fetchWalletBalance);
   yield takeLatest(fetchPendingBalanceRequest.type, fetchPendingBalance);
+  yield takeLatest(fetchTokensRequest.type, fetchTokens);
+  yield takeLatest(fetchAccountTokensRequest.type, fetchAccountTokens);
 }
 
 export default mySaga;

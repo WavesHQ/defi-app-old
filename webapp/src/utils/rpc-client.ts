@@ -20,6 +20,8 @@ import {
   IParseTxn,
   IRawTxn,
   IMasternodeCreatorInfo,
+  ITokenCreatorInfo,
+  ITokenUpdatorInfo,
 } from './interfaces';
 import {
   getAddressAndAmount,
@@ -480,6 +482,7 @@ export default class RpcClient {
       );
     }
   };
+
   createMasterNode = async (
     masternodeCreatorInfo: IMasternodeCreatorInfo,
     tx: any = []
@@ -508,6 +511,41 @@ export default class RpcClient {
     return data.result;
   };
 
+  createToken = async (
+    tokenCreatorInfo: ITokenCreatorInfo,
+    tx: any = []
+  ): Promise<string> => {
+    const { data } = await this.call('/', methodNames.CREATE_TOKEN, [
+      tokenCreatorInfo,
+    ]);
+    return data.result;
+  };
+
+  updateToken = async (
+    tokenUpdatorInfo: ITokenUpdatorInfo,
+    tx: any = []
+  ): Promise<string> => {
+    const { data } = await this.call('/', methodNames.UPDATE_TOKEN, [
+      tokenUpdatorInfo,
+    ]);
+    return data.result;
+  };
+
+  destroyToken = async (tokenId: string, tx: any = []): Promise<string> => {
+    const { data } = await this.call('/', methodNames.DESTROY_TOKEN, [tokenId]);
+    return data.result;
+  };
+
+  tokenInfo = async (key: string): Promise<string> => {
+    const { data } = await this.call('/', methodNames.GET_TOKEN_NODE, [key]);
+    return data.result;
+  };
+
+  listTokens = async (): Promise<string> => {
+    const { data } = await this.call('/', methodNames.LIST_TOKEN);
+    return data.result;
+  };
+
   getBlockChainInfo = async () => {
     const { data } = await this.call('/', methodNames.GET_BLOCKCHAIN_INFO, []);
     const isValid = validateSchema(
@@ -521,6 +559,22 @@ export default class RpcClient {
         }: ${JSON.stringify(data.result)}`
       );
     }
+    return data.result;
+  };
+
+  getAccount = async (ownerAddress: string) => {
+    const { data } = await this.call('/', methodNames.GET_ACCOUNT, [
+      ownerAddress,
+    ]);
+    return data.result;
+  };
+
+  listAccounts = async () => {
+    const { data } = await this.call('/', methodNames.LIST_ACCOUNTS, [
+      {},
+      true,
+      true,
+    ]);
     return data.result;
   };
 

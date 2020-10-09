@@ -63,3 +63,43 @@ export interface IMasternodeCreatorInfo {
   operatorAuthAddress: string;
   collateralAddress: string;
 }
+
+export interface ITokenCreatorInfo {
+  symbol: string;
+  name?: string;
+  isDAT?: boolean;
+  decimal?: number;
+  limit?: number;
+  mintable?: boolean;
+  tradeable?: boolean;
+  collateralAddress: string;
+}
+
+export interface ITokenUpdatorInfo {
+  token: string;
+  name?: string;
+  isDAT?: boolean;
+  decimal?: number;
+  limit?: number;
+  mintable?: boolean;
+  tradeable?: boolean;
+  collateralAddress?: string;
+}
+
+export interface ITokenCard {
+  data: {
+    hash: string;
+    name: string;
+    symbol: string;
+    isDAT: boolean;
+    decimal: number;
+    limit: number;
+    mintable: boolean;
+    tradeable: boolean;
+  };
+  handleCardClick: (symbol: string, hash: string) => void;
+}
+
+export interface ITokenResponse {
+  hash: string;
+}

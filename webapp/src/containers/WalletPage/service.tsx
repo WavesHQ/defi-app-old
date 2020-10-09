@@ -4,6 +4,8 @@ import { PAYMENT_REQUEST, BLOCKCHAIN_INFO_CHAIN_TEST } from '../../constants';
 import PersistentStore from '../../utils/persistentStore';
 import { I18n } from 'react-redux-i18n';
 import showNotification from '../../utils/notifications';
+import isEmpty from 'lodash/isEmpty';
+import _ from 'lodash';
 
 const handleLocalStorageName = (networkName) => {
   if (networkName === BLOCKCHAIN_INFO_CHAIN_TEST) {
@@ -120,6 +122,108 @@ export const getNewAddress = async (
     log.error(`Got error in getNewAddress: ${err}`);
     throw err;
   }
+};
+
+export const handleFetchTokens = async () => {
+  const rpcClient = new RpcClient();
+  const tokens = await rpcClient.listTokens();
+  if (isEmpty(tokens)) {
+    return [];
+  }
+  const transformedData = Object.keys(tokens).map((item) => ({
+    hash: item,
+    ...tokens[item],
+  }));
+
+  return transformedData;
+};
+
+export const handleFetchToken = async (id: string) => {
+  const rpcClient = new RpcClient();
+  const tokens = await rpcClient.tokenInfo(id);
+  if (isEmpty(tokens)) {
+    return {};
+  }
+  const transformedData = Object.keys(tokens).map((item) => ({
+    hash: item,
+    ...tokens[item],
+  }));
+
+  return transformedData[0];
+};
+
+export const handleAccountFetchTokens = async (ownerAddress) => {
+  const rpcClient = new RpcClient();
+  const tokens = await rpcClient.getAccount(ownerAddress);
+  if (isEmpty(tokens)) {
+    return [];
+  }
+
+  const transformedData = Object.keys(tokens).map(async (item) => {
+    let data = {};
+    async function getData() {
+      data = await handleFetchToken(item);
+    }
+    await getData();
+    return {
+      ...data,
+      amount: tokens[item],
+    };
+  });
+
+  return await Promise.all(transformedData);
+};
+
+export const handleFetchAccounts = async () => {
+  const rpcClient = new RpcClient();
+  const accounts = await rpcClient.listAccounts();
+  if (isEmpty(accounts)) {
+    return [];
+  }
+
+  const tokensData = accounts.map(async (account) => {
+    const addressInfo = await getAddressInfo(account.owner.addresses[0]);
+
+    if (addressInfo.ismine && !addressInfo.iswatchonly) {
+      return account.amount;
+    }
+  });
+
+  const resolvedData: any = _.compact(await Promise.all(tokensData));
+
+  const transformedData: any =
+    resolvedData &&
+    resolvedData.map(async (item) => {
+      let data = {};
+      async function getData() {
+        data = await handleFetchToken(Object.keys(item)[0]);
+      }
+      await getData();
+      return {
+        ...data,
+        amount: item[Object.keys(item)[0]],
+      };
+    });
+
+  const transformedDataResolved: any = await Promise.all(transformedData);
+
+  const result: any = [];
+  Array.from(new Set(transformedDataResolved.map((x) => x.hash))).forEach(
+    (x: any) => {
+      result.push(
+        transformedDataResolved
+          .filter((y) => y.hash === x)
+          .reduce((output, item) => {
+            const val = output['amount'] === undefined ? 0 : output['amount'];
+            output = { ...item };
+            output['amount'] = item.amount + val;
+            return output;
+          }, {})
+      );
+    }
+  );
+
+  return result;
 };
 
 export const getAddressInfo = (address) => {
