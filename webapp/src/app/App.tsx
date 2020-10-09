@@ -4,16 +4,15 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import { RouteComponentProps } from 'react-router-dom';
-import popoverModelStyles from '../containers/PopOver/popOver.module.scss';
 import './App.scss'; // INFO: do not move down, placed on purpose
 import Sidebar from '../containers/Sidebar';
 import { getRpcConfigsRequest } from '../containers/RpcConfiguration/reducer';
 import ErrorModal from '../containers/PopOver/ErrorModal';
-import UpdateProgressModal from '../containers/PopOver/UpdateProgress';
 import routes from '../routes';
 import LaunchScreen from '../components/LaunchScreen';
 import ReIndexModel from '../containers/PopOver/ReIndexModel';
 import BackupWalletWarningModel from '../containers/PopOver/BackupWalletWarningModel';
+import Popover from '../containers/PopOver';
 
 interface AppProps extends RouteComponentProps {
   isRunning: boolean;
@@ -93,9 +92,9 @@ const App: React.FunctionComponent<AppProps> = (props: AppProps) => {
           isRestart={isRestart}
         />
       )}
-      <UpdateProgressModal />
       <ReIndexModel />
       <BackupWalletWarningModel/>
+      <Popover />
     </>
   );
 };

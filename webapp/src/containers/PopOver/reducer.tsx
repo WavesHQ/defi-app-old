@@ -1,24 +1,27 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+export const initialState = {
+  isOpen: false,
+  isRestart: false,
+  showWarning: false,
+  isUpdateModalOpen: false,
+  isUpdateStarted: false,
+  isUpdateError: '',
+  updateAppInfo: {},
+  postUpdateFlag: false,
+  showUpdateAvailable: false,
+  isReIndexModelOpen: false,
+  isReIndexRestart: false,
+  isMinimized: false,
+  updateAvailableBadge: false,
+  backupWalletIsOpen: false,
+  openBackupWalletDatModal: false,
+  isBackupWalletWarningModelOpen: false,
+};
+
 const configSlice = createSlice({
   name: 'popover',
-  initialState: {
-    isOpen: false,
-    isRestart: false,
-    showWarning: false,
-    isUpdateModalOpen: false,
-    isUpdateStarted: false,
-    isUpdateError: '',
-    updateAppInfo: {},
-    postUpdateFlag: false,
-    showUpdateAvailable: false,
-    isReIndexModelOpen: false,
-    isReIndexRestart: false,
-    isMinimized: false,
-    updateAvailableBadge: false,
-    backupWalletIsOpen: false,
-    isBackupWalletWarningModelOpen: false,
-  },
+  initialState,
   reducers: {
     openErrorModal(state) {
       state.isOpen = true;
@@ -98,6 +101,12 @@ const configSlice = createSlice({
       state.isBackupWalletWarningModelOpen = false;
     },
     backupWalletStart() {},
+    openWalletDatBackupModal(state) {
+      state.openBackupWalletDatModal = true;
+    },
+    closeWalletDatBackupModal(state) {
+      state.openBackupWalletDatModal = false;
+    },
   },
 });
 
@@ -126,7 +135,9 @@ export const {
   closeBackupLoading,
   openBackupWalletWarningModal,
   closeBackupWalletWarningModal,
-  backupWalletStart
+  backupWalletStart,
+  openWalletDatBackupModal,
+  closeWalletDatBackupModal,
 } = actions;
 
 export default reducer;

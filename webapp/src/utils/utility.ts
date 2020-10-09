@@ -26,6 +26,7 @@ import BigNumber from 'bignumber.js';
 import RpcClient from './rpc-client';
 import Mnemonic from './mnemonic';
 import store from '../app/rootStore';
+import queue from '../../src/worker/queue';
 
 export const validateSchema = (schema, data) => {
   const ajv = new Ajv({ allErrors: true });
@@ -436,4 +437,17 @@ export const getMnemonicFromObj = (mnemonicObj) => {
 export const isValidMnemonic = (mnemonicCode: string) => {
   const mnemonic = new Mnemonic();
   return mnemonic.isValidMnemonic(mnemonicCode);
+}
+
+export const queuePush = (
+  methodName,
+  params,
+  callBack: (err, result) => void
+) => {
+  const {
+    app: { isQueueReady },
+  } = store.getState();
+  if (isQueueReady) {
+    return queue.push({ methodName, params }, callBack);
+  }
 };
