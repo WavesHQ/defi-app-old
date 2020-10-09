@@ -31,9 +31,14 @@ import {
   WALLET_PAYMENT_REQ_PARAMS_PATH,
   CONSOLE_RPC_CALL_BASE_PATH,
   MASTER_NODES_DETAIL_PATH,
-  WALLET_CREATE_RECEIVE_REQUEST, WALLET_BASE_PATH
+  WALLET_CREATE_RECEIVE_REQUEST,
+  WALLET_BASE_PATH,
+  WALLET_RESTORE_PAGE_PATH,
+  WALLET_CREATE_PATH,
 } from '../constants';
 import CreateWallet from '../containers/WalletPage/components/CreateWallet';
+import RestoreWallet from '../containers/WalletPage/components/RestoreWallet';
+import CreateOrRestoreWalletPage from '../containers/WalletPage/components/CreateOrRestoreWalletPage';
 
 const routes = (location) => (
   <Switch location={location}>
@@ -42,6 +47,12 @@ const routes = (location) => (
     <Route exact path={WALLET_SEND_PATH} component={SendPage} />
     <Route exact path={WALLET_RECEIVE_PATH} component={ReceivePage} />
     <Route exact path={WALLET_BASE_PATH} component={CreateWallet} />
+    <Route
+      exact
+      path={WALLET_CREATE_PATH}
+      component={CreateOrRestoreWalletPage}
+    />
+    <Route exact path={WALLET_RESTORE_PAGE_PATH} component={RestoreWallet} />
     <Route
       exact
       path={WALLET_CREATE_RECEIVE_REQUEST}

@@ -2,8 +2,7 @@ import * as bip39 from 'bip39';
 import * as bip32 from 'bip32';
 import randomBinary from 'random-binary';
 
-import store from '../app/rootStore';
-import { getNetwork } from './utility';
+import { getNetworkInfo, getNetworkType } from './utility';
 
 export default class Mnemonic {
   constructor() {}
@@ -27,11 +26,8 @@ export default class Mnemonic {
   };
 
   createRoot = (seed: Buffer) => {
-    const state = store.getState();
-    const blockChainInfo: any = state.wallet.blockChainInfo;
-    console.log('blockchain info------', blockChainInfo);
-    const network = getNetwork(blockChainInfo.chain);
-    console.log('network---------', network);
+    const networkType = getNetworkType();
+    const network = getNetworkInfo(networkType);
     return bip32.fromSeed(seed, network);
   };
 

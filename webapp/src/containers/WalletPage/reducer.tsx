@@ -33,7 +33,10 @@ export const initialState = {
     sendStep: 'default',
     waitToSend: 5,
   },
-  isWalletCreating: false
+  isWalletCreating: false,
+  isErrorCreatingWallet: '',
+  isWalletRestoring: false,
+  isErrorRestoringWallet: '',
 };
 const configSlice = createSlice({
   name: 'wallet',
@@ -112,12 +115,35 @@ const configSlice = createSlice({
     },
     createWalletRequest(state, action) {
       state.isWalletCreating = true;
+      state.isErrorCreatingWallet = '';
     },
     createWalletSuccess(state){
       state.isWalletCreating = false;
+      state.isErrorCreatingWallet = '';
     },
-    createWalletFailure(state){
+    createWalletFailure(state, action){
       state.isWalletCreating = false;
+      state.isErrorCreatingWallet = action.payload
+    },
+    resetCreateWalletError(state, action) {
+      state.isWalletCreating = false;
+      state.isErrorCreatingWallet = '';
+    },
+    restoreWalletRequest(state, action) {
+      state.isWalletRestoring = true;
+      state.isErrorRestoringWallet = '';
+    },
+    restoreWalletSuccess(state) {
+      state.isWalletRestoring = false;
+      state.isErrorRestoringWallet = '';
+    },
+    restoreWalletFailure(state, action){
+      state.isWalletRestoring = false;
+      state.isErrorRestoringWallet = action.payload;
+    },
+    resetRestoreWalletError(state, action){
+      state.isWalletRestoring = false;
+      state.isErrorRestoringWallet = '';
     }
   },
 });
@@ -150,7 +176,12 @@ export const {
   setBlockChainInfo,
   createWalletRequest,
   createWalletSuccess,
-  createWalletFailure
+  createWalletFailure,
+  resetCreateWalletError,
+  restoreWalletRequest,
+  restoreWalletSuccess,
+  restoreWalletFailure,
+  resetRestoreWalletError
 } = actions;
 
 export default reducer;

@@ -25,6 +25,7 @@ import { unitConversion } from './unitConversion';
 import BigNumber from 'bignumber.js';
 import RpcClient from './rpc-client';
 import Mnemonic from './mnemonic';
+import store from '../app/rootStore';
 
 export const validateSchema = (schema, data) => {
   const ajv = new Ajv({ allErrors: true });
@@ -389,42 +390,50 @@ export const checkElementsInArray = (
   }
 
   const mnemonicWordArray = _.values(mnemonicObject);
-  console.log('selected word array-------', selectedWordArray);
-  console.log('mnemonic word array------------------', mnemonicWordArray);
 
-  const tempValue = selectedWordArray.every((word) =>
-    mnemonicWordArray.includes(word)
-  );
-  console.log('tempValue----------', tempValue);
-  return tempValue;
+  return selectedWordArray.every((word) => mnemonicWordArray.includes(word));
 };
 
 export const createWallet = async (mnemonicCode: string) => {
-  try{
-  const mnemonic = new Mnemonic();
-  const rpcClient = new RpcClient();
+  try {
+    const mnemonic = new Mnemonic();
+    const rpcClient = new RpcClient();
 
-  console.log('mnemonic code----------', mnemonicCode);
-  const seed = mnemonic.createSeed(mnemonicCode);
-  console.log('seed created-----------', seed, seed.toString('hex'));
-  const root = mnemonic.createRoot(seed);
-  console.log('root node created------------------', root);
-  const hdSeed = mnemonic.getPrivateKeyInWIF(root);
-  console.log('hd seed----------------', hdSeed);
+    const seed = mnemonic.createSeed(mnemonicCode);
+    const root = mnemonic.createRoot(seed);
+    const hdSeed = mnemonic.getPrivateKeyInWIF(root);
 
-  await rpcClient.setHdSeed(hdSeed);
-  console.log('sethdseed rpc call finished');
-  }catch(e){
-    console.log(e);
+    await rpcClient.setHdSeed(hdSeed);
+  } catch (e) {
+    log.error(e);
   }
 };
 
-export const getNetwork = (chain: string) => {
-  if (chain === MAIN) {
+export const getNetworkType = () => {
+  const state = store.getState();
+  const blockChainInfo: any = state.wallet.blockChainInfo;
+  return blockChainInfo.chain || MAIN;
+};
+
+export const getNetworkInfo = (networkType: string) => {
+  if (networkType === MAIN) {
     return bitcoin.networks.bitcoin;
   }
-  if (chain === TEST) {
+  if (networkType === TEST) {
     return bitcoin.networks.testnet;
   }
   return bitcoin.networks.regtest;
+};
+
+export const getMnemonicFromObj = (mnemonicObj) => {
+  const values: string[] = Object.values(mnemonicObj);
+  const mnemonic = values.reduce((mnemonicCode, value) => {
+    return mnemonicCode.concat(value + ' ');
+  }, '');
+  return mnemonic.trim();
+};
+
+export const isValidMnemonic = (mnemonicCode: string) => {
+  const mnemonic = new Mnemonic();
+  return mnemonic.isValidMnemonic(mnemonicCode);
 };

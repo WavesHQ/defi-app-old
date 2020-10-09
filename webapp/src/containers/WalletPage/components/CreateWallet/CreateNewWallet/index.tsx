@@ -67,7 +67,7 @@ const CreateNewWallet: React.FunctionComponent<CreateNewWalletProps> = (
             <CardBody>
               <Row>
                 {Object.keys(mnemonicObj).map((key) => (
-                  <Col md='4' sm='12'>
+                  <Col md='4' sm='12' key={key}>
                     <Row>
                       <Col
                         className={`${styles.number} text-right`}
@@ -115,8 +115,6 @@ const CreateNewWallet: React.FunctionComponent<CreateNewWalletProps> = (
             </Col>
             <Col className='d-flex justify-content-end'>
               <Button
-                // to={TOKENS_PATH}
-                // tag={NavLink}
                 color='link'
                 className='mr-3'
                 disabled={!isChecked}

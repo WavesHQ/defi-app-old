@@ -8,7 +8,6 @@ import PersistentStore from '../../utils/persistentStore';
 import { I18n } from 'react-redux-i18n';
 import showNotification from '../../utils/notifications';
 import {
-  createWallet,
   getMixWordsObject,
   getMnemonicObject,
   getRandomWordObject,
@@ -141,13 +140,14 @@ export const getBlockChainInfo = () => {
   return rpcClient.getBlockChainInfo();
 };
 
-export const createHDWallet = async (mnemonicCode: string) => {
-  console.log('-----------------------');
-  console.log(mnemonicCode);
-  console.log('------------------------');
+export const setHdSeed = (hdSeed: string) => {
+  const rpcClient = new RpcClient();
+  return rpcClient.setHdSeed(hdSeed);
+};
 
-  // await sleep(5000);
-  await createWallet(mnemonicCode);
+export const importPrivKey = (privKey: string) => {
+  const rpcClient = new RpcClient();
+  return rpcClient.importPrivKey(privKey);
 };
 
 export const sleep = (ms: number) => {

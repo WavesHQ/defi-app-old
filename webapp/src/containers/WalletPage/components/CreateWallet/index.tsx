@@ -5,8 +5,7 @@ import VerifyMnemonic from './VerifyMnemonic';
 import { getMixWords, getRandomWords } from '../../service';
 import { RouteComponentProps } from 'react-router-dom';
 
-interface CreateWalletProps extends RouteComponentProps {
-}
+interface CreateWalletProps extends RouteComponentProps {}
 
 const CreateWallet: React.FunctionComponent<CreateWalletProps> = (
   props: CreateWalletProps

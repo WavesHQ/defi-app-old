@@ -1,12 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { Button, ButtonGroup, Row, Col } from 'reactstrap';
-import {
-  MdArrowUpward,
-  MdArrowDownward,
-  MdRefresh,
-  MdInfo,
-} from 'react-icons/md';
+import { MdArrowUpward, MdArrowDownward, MdRefresh } from 'react-icons/md';
 import { NavLink as RRNavLink, RouteComponentProps } from 'react-router-dom';
 import StatCard from '../../components/StatCard';
 import WalletTxns from './components/WalletTxns';
@@ -20,9 +15,12 @@ import { startUpdateApp, openBackupWallet } from '../PopOver/reducer';
 import {
   WALLET_SEND_PATH,
   WALLET_RECEIVE_PATH,
-  IS_WALLET_CREATED
+  MAIN,
+  IS_WALLET_CREATED_MAIN,
+  IS_WALLET_CREATED_TEST,
+  WALLET_CREATE_PATH,
 } from '../../constants';
-import { getAmountInSelectedUnit } from '../../utils/utility';
+import { getAmountInSelectedUnit, getNetworkType } from '../../utils/utility';
 import { updatePendingBalanceSchedular } from '../../worker/schedular';
 import styles from './WalletPage.module.scss';
 import Badge from '../../components/Badge';
@@ -50,7 +48,7 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
     updateAvailableBadge,
     startUpdateApp,
     openBackupWallet,
-    history
+    history,
   } = props;
   useEffect(() => {
     fetchWalletBalanceRequest();
@@ -70,7 +68,10 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
   };
 
   const isWalletCreated = () => {
-    return PersistentStore.get(IS_WALLET_CREATED);
+    const networkType = getNetworkType();
+    const key =
+      networkType === MAIN ? IS_WALLET_CREATED_MAIN : IS_WALLET_CREATED_TEST;
+    return PersistentStore.get(key) || false;
   };
 
   let balanceRefreshTimerID;
@@ -83,7 +84,7 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
     <>
       {!isWalletCreated() ? (
         <div className='main-wrapper'>
-          <CreateOrRestoreWalletPage history={history}/>
+          <CreateOrRestoreWalletPage history={history} />
         </div>
       ) : (
         <div className='main-wrapper'>
@@ -180,6 +181,25 @@ const WalletPage: React.FunctionComponent<WalletPageProps> = (
             </section>
             <WalletTxns />
           </div>
+          <footer className='footer-bar'>
+            <div>
+              <Row className='justify-content-between align-items-center'>
+                <Col className='d-flex justify-content-end'>
+                  <Button
+                    color='link'
+                    className='mr-3'
+                    onClick={() => {
+                      history.push(WALLET_CREATE_PATH);
+                    }}
+                  >
+                    {I18n.t(
+                      'containers.wallet.createNewWalletPage.createNewWallet'
+                    )}
+                  </Button>
+                </Col>
+              </Row>
+            </div>
+          </footer>
         </div>
       )}
     </>

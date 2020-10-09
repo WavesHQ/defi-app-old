@@ -2,18 +2,25 @@ import React from 'react';
 import { Helmet } from 'react-helmet';
 import { I18n } from 'react-redux-i18n';
 import { Col, Row } from 'reactstrap';
-import { MdAccountBalanceWallet } from 'react-icons/md';
-import WalletStatCard from '../../../../components/WalletStatCard';
-import { WALLET_BASE_PATH } from '../../../../constants';
+import { MdAccountBalanceWallet, MdFormatListBulleted } from 'react-icons/md';
+import { connect } from 'react-redux';
 
-interface CreateOrRestoreWalletPageProps {
+import WalletStatCard from '../../../../components/WalletStatCard';
+import {
+  WALLET_BASE_PATH,
+  WALLET_RESTORE_PAGE_PATH,
+} from '../../../../constants';
+import { openBackupWalletWarningModal } from '../../../PopOver/reducer';
+
+interface CreateOrRestoreWalletPageProps{
   history: any;
+  openBackupWalletWarningModal: () => void;
 }
 
 const CreateOrRestoreWalletPage: React.FunctionComponent<CreateOrRestoreWalletPageProps> = (
   props: CreateOrRestoreWalletPageProps
 ) => {
-  const { history } = props;
+  const { history, openBackupWalletWarningModal } = props;
 
   return (
     <div>
@@ -23,7 +30,11 @@ const CreateOrRestoreWalletPage: React.FunctionComponent<CreateOrRestoreWalletPa
         </title>
       </Helmet>
       <header className='header-bar'>
-        <h1>{I18n.t('containers.wallet.createOrRestoreWalletPage.title')}</h1>
+        <h1>
+          {I18n.t(
+            'containers.wallet.createOrRestoreWalletPage.createOrRestoreWallet'
+          )}
+        </h1>
       </header>
       <div className='content'>
         <section>
@@ -31,6 +42,7 @@ const CreateOrRestoreWalletPage: React.FunctionComponent<CreateOrRestoreWalletPa
             <Col>
               <div
                 onClick={() => {
+                  openBackupWalletWarningModal();
                   history.push(WALLET_BASE_PATH);
                 }}
               >
@@ -38,17 +50,22 @@ const CreateOrRestoreWalletPage: React.FunctionComponent<CreateOrRestoreWalletPa
                   label={I18n.t(
                     'containers.wallet.createOrRestoreWalletPage.createANewWallet'
                   )}
-                  icon={<MdAccountBalanceWallet size={50} />}
+                  icon={<MdAccountBalanceWallet size={60} color='#ff00af' />}
                 />
               </div>
             </Col>
             <Col>
-              <div>
+              <div
+                onClick={() => {
+                  openBackupWalletWarningModal();
+                  history.push(WALLET_RESTORE_PAGE_PATH);
+                }}
+              >
                 <WalletStatCard
                   label={I18n.t(
                     'containers.wallet.createOrRestoreWalletPage.restoreWalletFromMnemonicSeed'
                   )}
-                  icon={<MdAccountBalanceWallet size={50} />}
+                  icon={<MdFormatListBulleted size={60} color='#ff00af' />}
                 />
               </div>
             </Col>
@@ -59,4 +76,13 @@ const CreateOrRestoreWalletPage: React.FunctionComponent<CreateOrRestoreWalletPa
   );
 };
 
-export default CreateOrRestoreWalletPage;
+const mapStateToProps = (state) => {};
+
+const mapDispatchToProps = {
+  openBackupWalletWarningModal,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CreateOrRestoreWalletPage);
