@@ -13,6 +13,7 @@ import UpdateProgressModal from '../containers/PopOver/UpdateProgress';
 import routes from '../routes';
 import LaunchScreen from '../components/LaunchScreen';
 import ReIndexModel from '../containers/PopOver/ReIndexModel';
+import BackupWalletWarningModel from '../containers/PopOver/BackupWalletWarningModel';
 
 interface AppProps extends RouteComponentProps {
   isRunning: boolean;
@@ -94,6 +95,7 @@ const App: React.FunctionComponent<AppProps> = (props: AppProps) => {
       )}
       <UpdateProgressModal />
       <ReIndexModel />
+      <BackupWalletWarningModel/>
     </>
   );
 };
